@@ -95,8 +95,6 @@ android_library {
         "-Xjvm-default=all",
     ],
 
-    //optional_uses_libs: ["com.google.android.wearable"],
-
     libs: [
         "android.car-stubs",
         "safety-center-annotations",
@@ -162,7 +160,6 @@ android_library {
         "androidx.wear.compose_compose-material",
         "android.content.pm.flags-aconfig-java-export",
         "android.os.flags-aconfig-java-export",
-        "androidx.wear_wear",
     ],
 
     lint: {
