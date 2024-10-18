@@ -1278,7 +1278,6 @@
         name="android.app.role.SYSTEM_SUPERVISION"
         defaultHolders="config_systemSupervision"
         exclusive="true"
-        ignoreDisabledSystemPackageWhenGranting="true"
         minSdkVersion="33"
         static="true"
         systemOnly="true"
@@ -1627,6 +1626,12 @@
             <permission-set name="location" />
             <permission name="android.permission.ACCESS_BACKGROUND_LOCATION" />
             <permission name="android.permission.ACTIVITY_RECOGNITION" />
+            <permission
+                name="android.permission.health.READ_HEART_RATE"
+                featureFlag="android.permission.flags.Flags.replaceBodySensorPermissionEnabled" />
+            <permission
+                name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND"
+                featureFlag="android.permission.flags.Flags.replaceBodySensorPermissionEnabled"  />
         </permissions>
     </role>
 
