@@ -146,6 +146,24 @@ object PermissionMapping {
             PLATFORM_PERMISSIONS[Manifest.permission.RANGING] =
                 Manifest.permission_group.NEARBY_DEVICES
         }
+        // Android XR permissions
+        if (android.xr.Flags.xrManifestEntries()) {
+            PLATFORM_PERMISSIONS[Manifest.permission.EYE_TRACKING_COARSE] =
+                Manifest.permission_group.XR_TRACKING
+            PLATFORM_PERMISSIONS[Manifest.permission.FACE_TRACKING] =
+                Manifest.permission_group.XR_TRACKING
+            PLATFORM_PERMISSIONS[Manifest.permission.HAND_TRACKING] =
+                Manifest.permission_group.XR_TRACKING
+            PLATFORM_PERMISSIONS[Manifest.permission.SCENE_UNDERSTANDING_COARSE] =
+                Manifest.permission_group.XR_TRACKING
+
+            PLATFORM_PERMISSIONS[Manifest.permission.EYE_TRACKING_FINE] =
+                Manifest.permission_group.XR_TRACKING_SENSITIVE
+            PLATFORM_PERMISSIONS[Manifest.permission.HEAD_TRACKING] =
+                Manifest.permission_group.XR_TRACKING_SENSITIVE
+            PLATFORM_PERMISSIONS[Manifest.permission.SCENE_UNDERSTANDING_FINE] =
+                Manifest.permission_group.XR_TRACKING_SENSITIVE
+        }
 
         // Any updates to the permissions for the CALL_LOG permission group must also be made in
         // Permissions {@link com.android.role.controller.model.Permissions} in the role
