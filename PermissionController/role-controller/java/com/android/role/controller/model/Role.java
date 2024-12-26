@@ -472,25 +472,21 @@ public class Role {
         if (!isAvailableByFeatureFlagAndSdkVersion()) {
             return false;
         }
-
-        if (getExclusivity() == EXCLUSIVITY_PROFILE_GROUP
-                && UserUtils.isPrivateProfile(user, context)) {
-            return false;
-        }
-
-        if (mBehavior != null) {
-            boolean isAvailableAsUser = mBehavior.isAvailableAsUser(this, user, context);
-            // Ensure that cross-user role is only available if also available for
-            //  the profile-group's full user
-            if (isAvailableAsUser && getExclusivity() == EXCLUSIVITY_PROFILE_GROUP) {
-                UserHandle profileParent = UserUtils.getProfileParentOrSelf(user, context);
-                if (!Objects.equals(profileParent, user)
-                        && !mBehavior.isAvailableAsUser(this, profileParent, context)) {
-                    throw new IllegalArgumentException("Role is not available for profile parent: "
-                            + profileParent.getIdentifier());
-                }
+        if (getExclusivity() == EXCLUSIVITY_PROFILE_GROUP) {
+            if (UserUtils.isPrivateProfile(user, context)) {
+                return false;
             }
-            return isAvailableAsUser;
+
+            // A profile group exclusive role may only be available in a profile when it's
+            // available in the profile parent.
+            UserHandle profileParent = UserUtils.getProfileParentOrSelf(user, context);
+            if (!Objects.equals(user, profileParent)
+                    && !isAvailableAsUser(profileParent, context)) {
+                return false;
+            }
+        }
+        if (mBehavior != null) {
+            return mBehavior.isAvailableAsUser(this, user, context);
         }
         return true;
     }
@@ -1086,6 +1082,11 @@ public class Role {
      */
     public void onNoneHolderSelectedAsUser(@NonNull UserHandle user, @NonNull Context context) {
         RoleManagerCompat.setRoleFallbackEnabledAsUser(this, false, user, context);
+        if (RoleFlags.isProfileGroupExclusivityAvailable()
+                && getExclusivity() == Role.EXCLUSIVITY_PROFILE_GROUP) {
+            RoleManager roleManager = context.getSystemService(RoleManager.class);
+            roleManager.setActiveUserForRole(mName, user, 0);
+        }
     }
 
     /**
@@ -1138,6 +1139,8 @@ public class Role {
     @Nullable
     public Intent getRestrictionIntentAsUser(@NonNull UserHandle user, @NonNull Context context) {
         if (SdkLevel.isAtLeastU() && isExclusive()) {
+            // TODO(b/379143953): if role is profile group exclusive
+            //  check DISALLOW_CONFIG_DEFAULT_APPS for all users
             UserManager userManager = context.getSystemService(UserManager.class);
             if (userManager.hasUserRestrictionForUser(UserManager.DISALLOW_CONFIG_DEFAULT_APPS,
                     user)) {
