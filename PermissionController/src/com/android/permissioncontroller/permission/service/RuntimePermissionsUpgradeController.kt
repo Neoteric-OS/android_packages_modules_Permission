@@ -479,7 +479,8 @@ internal object RuntimePermissionsUpgradeController {
                         bgApp.permGroupInfo,
                         allPermissionsWithxemption,
                         bgApp.hasInstallToRuntimeSplit,
-                        bgApp.specialLocationGrant
+                        bgApp.specialLocationGrant,
+                        bgApp.specialFixedStorageGrant,
                     )
             }
 
