@@ -25,8 +25,8 @@ import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material3.AlertDialog as Material3AlertDialog
 import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.Text
-import com.android.permissioncontroller.permission.ui.wear.elements.AlertDialog
-import com.android.permissioncontroller.permission.ui.wear.elements.DialogButtonContent
+import com.android.permissioncontroller.permission.ui.wear.elements.material2.AlertDialog
+import com.android.permissioncontroller.permission.ui.wear.elements.material2.DialogButtonContent
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
 
 @Composable
@@ -91,7 +91,7 @@ private fun WearPermissionConfirmationDialogInternal(
         } ?: AlertDialogDefaults.ConfirmIcon
 
     Material3AlertDialog(
-        show = show,
+        visible = show,
         onDismissRequest = edgeButtonContent.onClick,
         edgeButton = {
             AlertDialogDefaults.EdgeButton(onClick = edgeButtonContent.onClick, content = edgeIcon)
@@ -148,7 +148,7 @@ private fun WearPermissionConfirmationDialogInternal(
         }
 
     Material3AlertDialog(
-        show = show,
+        visible = show,
         onDismissRequest = negativeButtonContent?.onClick ?: {},
         confirmButton = positiveButton ?: {},
         dismissButton = negativeButton ?: {},
