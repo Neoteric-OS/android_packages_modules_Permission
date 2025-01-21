@@ -1832,7 +1832,7 @@
         defaultHolders="config_defaultWallet"
         description="@string/role_wallet_description"
         exclusive="true"
-        exclusivity="user"
+        exclusivity="profileGroup"
         label="@string/role_wallet_label"
         minSdkVersion="35"
         overrideUserWhenGranting="true"
@@ -1885,7 +1885,7 @@
         shortLabel="@string/role_for_testing_profile_group_exclusivity_short_label"
         showNone="true"
         uiBehavior="ReservedForTestingProfileGroupExclusivityRoleUiBehavior"
-        visible="true"/>
+        visible="false"/>
 
     <!---
       ~ A role for the vendor package that provides privacy-preserving intelligent processor for
