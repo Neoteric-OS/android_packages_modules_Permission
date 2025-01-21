@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.android.permissioncontroller.R
 import com.android.permissioncontroller.permission.ui.wear.elements.ScrollableScreen
-import com.android.permissioncontroller.permission.ui.wear.elements.ToggleChipToggleControl
+import com.android.permissioncontroller.permission.ui.wear.elements.material2.ToggleChipToggleControl
 import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionButton
 import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionButtonStyle
 import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionIconBuilder
@@ -41,8 +41,6 @@ import com.android.permissioncontroller.permission.ui.wear.elements.material3.We
 import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControlStyle
 import com.android.permissioncontroller.permission.ui.wear.theme.ResourceHelper
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
-import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion.MATERIAL2_5
-import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion.MATERIAL3
 import com.android.permissioncontroller.role.UserPackage
 import com.android.permissioncontroller.role.ui.ManageRoleHolderStateLiveData
 
@@ -80,14 +78,8 @@ fun WearRequestRoleScreen(
             helper.initializeSelectedPackage()
         }
     }
-    val materialUIVersion =
-        if (ResourceHelper.material3Enabled) {
-            MATERIAL3
-        } else {
-            MATERIAL2_5
-        }
     WearRequestRoleContent(
-        materialUIVersion,
+        ResourceHelper.materialUIVersionInApp,
         isLoading,
         helper,
         roleLiveData.value,
