@@ -436,10 +436,9 @@ public class RoleParser {
                     exclusivity = Role.EXCLUSIVITY_USER;
                     break;
                 case EXCLUSIVITY_PROFILE_GROUP:
-                    // TODO(b/372743073): change to isAtLeastB once available
                     // EXCLUSIVITY_PROFILE behavior only available for B+
                     // fallback to default of EXCLUSIVITY_USER
-                    exclusivity = SdkLevel.isAtLeastV()
+                    exclusivity = SdkLevel.isAtLeastB()
                             ? Role.EXCLUSIVITY_PROFILE_GROUP
                             : Role.EXCLUSIVITY_USER;
                     break;
