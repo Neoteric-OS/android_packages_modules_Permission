@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package com.android.permissioncontroller.role.ui.behavior;
+package com.android.permissioncontroller.role.ui.behavior.v36;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.UserHandle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.preference.Preference;
 
 import com.android.permissioncontroller.permission.utils.Utils;
 import com.android.permissioncontroller.role.ui.RequestRoleItemView;
 import com.android.permissioncontroller.role.ui.TwoTargetPreference;
+import com.android.permissioncontroller.role.ui.behavior.RoleUiBehavior;
 import com.android.role.controller.model.Role;
 import com.android.role.controller.util.UserUtils;
 
 import java.util.List;
 
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 public class ReservedForTestingProfileGroupExclusivityRoleUiBehavior implements RoleUiBehavior {
     @Override
     public void preparePreferenceAsUser(@NonNull Role role, @NonNull TwoTargetPreference preference,
