@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.Hyphens
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ScrollInfoProvider
@@ -56,6 +57,7 @@ import com.android.permissioncontroller.permission.ui.wear.elements.AnnotatedTex
 import com.android.permissioncontroller.permission.ui.wear.elements.ListScopeWrapper
 import com.android.permissioncontroller.permission.ui.wear.elements.material2.Wear2Scaffold
 import com.android.permissioncontroller.permission.ui.wear.elements.rememberDrawablePainter
+import com.android.permissioncontroller.permission.ui.wear.theme.ResourceHelper
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion.MATERIAL2_5
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionTheme
@@ -63,6 +65,7 @@ import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionT
 private class TransformingScopeConverter(private val scope: TransformingLazyColumnScope) :
     ListScopeWrapper {
     override fun item(key: Any?, contentType: Any?, content: @Composable () -> Unit) {
+        // TODO:https://buganizer.corp.google.com/issues/389093588.
         scope.item { Box(modifier = Modifier.scrollTransform(this)) { content() } }
     }
 }
@@ -79,7 +82,7 @@ private class ScalingScopeConverter(private val scope: ScalingLazyListScope) : L
  */
 @Composable
 internal fun WearPermissionScaffold(
-    materialUIVersion: WearPermissionMaterialUIVersion = MATERIAL2_5,
+    materialUIVersion: WearPermissionMaterialUIVersion = ResourceHelper.materialUIVersionInSettings,
     showTimeText: Boolean,
     title: String?,
     subtitle: CharSequence?,
@@ -132,7 +135,6 @@ private fun WearPermissionScaffoldInternal(
         WearPermissionScaffoldPaddingDefaults(
             screenWidth = screenWidth,
             screenHeight = screenHeight,
-            titleNeedsLargePadding = subtitle == null,
         )
     val columnState = rememberTransformingLazyColumnState()
     WearPermissionTheme(version = WearPermissionMaterialUIVersion.MATERIAL3) {
@@ -151,7 +153,8 @@ private fun WearPermissionScaffoldInternal(
                             icon = painterFromImage(image),
                             title = title,
                             titleTestTag = titleTestTag,
-                            titlePaddingValues = paddingDefaults.titlePaddingValues,
+                            titlePaddingValues =
+                                paddingDefaults.titlePaddingValues(subtitle == null),
                             subtitle = subtitle,
                             subtitleTestTag = subtitleTestTag,
                             subTitlePaddingValues = paddingDefaults.subTitlePaddingValues,
@@ -162,42 +165,6 @@ private fun WearPermissionScaffoldInternal(
             }
         }
     }
-}
-
-private class WearPermissionScaffoldPaddingDefaults(
-    screenWidth: Int,
-    screenHeight: Int,
-    titleNeedsLargePadding: Boolean,
-) {
-    private val firstSpacerItemHeight = 0.dp
-    private val scrollContentHorizontalPadding = (screenWidth * 0.052).dp
-    private val titleHorizontalPadding = (screenWidth * 0.0884).dp
-    private val subtitleHorizontalPadding = (screenWidth * 0.0416).dp
-    private val scrollContentTopPadding = (screenHeight * 0.1456).dp - firstSpacerItemHeight
-    private val scrollContentBottomPadding = (screenHeight * 0.3636).dp
-    private val defaultItemPadding = 4.dp
-    private val largeItemPadding = 8.dp
-    val titlePaddingValues =
-        PaddingValues(
-            start = titleHorizontalPadding,
-            top = defaultItemPadding,
-            bottom = if (titleNeedsLargePadding) largeItemPadding else defaultItemPadding,
-            end = titleHorizontalPadding,
-        )
-    val subTitlePaddingValues =
-        PaddingValues(
-            start = subtitleHorizontalPadding,
-            top = defaultItemPadding,
-            bottom = largeItemPadding,
-            end = subtitleHorizontalPadding,
-        )
-    val scrollContentPadding =
-        PaddingValues(
-            start = scrollContentHorizontalPadding,
-            end = scrollContentHorizontalPadding,
-            top = scrollContentTopPadding,
-            bottom = scrollContentBottomPadding,
-        )
 }
 
 @Composable
@@ -300,6 +267,7 @@ private fun ListScopeWrapper.titleItem(
                     text = it,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.optionalTestTag(testTag),
+                    style = MaterialTheme.typography.titleLarge.copy(hyphens = Hyphens.Auto),
                 )
             }
         }

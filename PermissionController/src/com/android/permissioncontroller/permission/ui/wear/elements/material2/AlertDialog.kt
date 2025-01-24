@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,12 +39,8 @@ import androidx.wear.compose.material.dialog.Dialog
 import com.android.permissioncontroller.permission.ui.wear.elements.material2.layout.ScalingLazyColumnDefaults
 import com.android.permissioncontroller.permission.ui.wear.elements.material2.layout.ScalingLazyColumnState
 import com.android.permissioncontroller.permission.ui.wear.elements.material2.layout.rememberColumnState
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.DialogButtonContent
 import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionIconBuilder
-
-data class DialogButtonContent(
-    val icon: WearPermissionIconBuilder? = null,
-    val onClick: (() -> Unit),
-)
 
 /**
  * This component is an alternative to [AlertContent], providing the following:
@@ -103,7 +101,7 @@ fun AlertContent(
             title?.let {
                 {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().semantics() { heading() },
                         text = it,
                         color = MaterialTheme.colors.onBackground,
                         textAlign = TextAlign.Center,
