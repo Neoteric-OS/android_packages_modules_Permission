@@ -720,8 +720,6 @@
                 minSdkVersion="35" />
             <permission name="android.permission.MANAGE_DEVICE_POLICY_AUDIT_LOGGING"
                 minSdkVersion="35" />
-            <permission name="android.permission.EXECUTE_APP_FUNCTIONS"
-                featureFlag="android.app.appfunctions.flags.Flags.enableAppFunctionManager" />
             <permission name="android.permission.EXECUTE_APP_FUNCTIONS_TRUSTED"
                 featureFlag="android.app.appfunctions.flags.Flags.enableAppFunctionManager" />
         </permissions>
@@ -1032,6 +1030,8 @@
             <!-- If this role holder has a NotificationListenerService, let that service receive
                  notifications with sensitive content unredacted-->
             <permission name="android.permission.RECEIVE_SENSITIVE_NOTIFICATIONS" minSdkVersion="35"/>
+            <permission name="android.permission.ACCESS_TEXT_CLASSIFIER_BY_TYPE" minSdkVersion="36"
+                featureFlag="android.permission.flags.Flags.textClassifierChoiceApiEnabled"/>
         </permissions>
         <app-ops>
             <app-op name="android:receive_sensitive_notifications" mode="allowed" minSdkVersion="35"/>
@@ -1920,6 +1920,11 @@
         systemOnly="true"
         visible="false">
         <permissions>
+            <permission name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+            <permission name="android.permission.ACCESS_COARSE_LOCATION" />
+            <permission name="android.permission.ACCESS_FINE_LOCATION" />
+            <permission name="android.permission.READ_MEDIA_IMAGES" />
+            <permission name="android.permission.READ_MEDIA_VIDEO" />
             <permission name="android.permission.READ_GLOBAL_APP_SEARCH_DATA" />
             <permission name="android.permission.EXECUTE_APP_FUNCTIONS_TRUSTED"
                 featureFlag="android.app.appfunctions.flags.Flags.enableAppFunctionManager" />
