@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.ExpandableState
 import androidx.wear.compose.foundation.ScrollInfoProvider
+import androidx.wear.compose.foundation.expandableButton
 import androidx.wear.compose.foundation.expandableItems
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
@@ -75,6 +76,15 @@ private class TransformingScopeConverter(private val scope: TransformingLazyColu
         scope.item { Box(modifier = Modifier.scrollTransform(this)) { content() } }
     }
 
+    override fun items(
+        count: Int,
+        key: ((Int) -> Any)?,
+        contentType: (Int) -> Any?,
+        content: @Composable ((Int) -> Unit),
+    ) {
+        scope.items(count, key, contentType) { content(it) }
+    }
+
     override fun expandableItems(
         state: ExpandableState,
         count: Int,
@@ -83,11 +93,28 @@ private class TransformingScopeConverter(private val scope: TransformingLazyColu
     ) {
         throw Exception("Expandable Items are not implemented on TLC Yet. Use SLC.")
     }
+
+    override fun expandableButton(
+        state: ExpandableState,
+        key: Any?,
+        content: @Composable (() -> Unit),
+    ) {
+        throw Exception("Expandable Button is not implemented on TLC Yet. Use SLC.")
+    }
 }
 
 private class ScalingScopeConverter(private val scope: ScalingLazyListScope) : ListScopeWrapper {
     override fun item(key: Any?, contentType: Any?, content: @Composable () -> Unit) {
         scope.item { content() }
+    }
+
+    override fun items(
+        count: Int,
+        key: ((Int) -> Any)?,
+        contentType: (Int) -> Any?,
+        content: @Composable ((Int) -> Unit),
+    ) {
+        scope.items(count, key) { content(it) }
     }
 
     override fun expandableItems(
@@ -97,6 +124,14 @@ private class ScalingScopeConverter(private val scope: ScalingLazyListScope) : L
         itemContent: @Composable (BoxScope.(Int) -> Unit),
     ) {
         scope.expandableItems(state, count, key, itemContent)
+    }
+
+    override fun expandableButton(
+        state: ExpandableState,
+        key: Any?,
+        content: @Composable (() -> Unit),
+    ) {
+        scope.expandableButton(state, key, content)
     }
 }
 
