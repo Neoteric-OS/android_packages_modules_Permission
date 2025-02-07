@@ -33,7 +33,8 @@ import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.LocalTextConfiguration
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.Text
-import com.android.permissioncontroller.permission.ui.wear.elements.Chip
+import com.android.permissioncontroller.permission.ui.wear.elements.material2.Chip
+import com.android.permissioncontroller.permission.ui.wear.theme.ResourceHelper
 import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
 
 /**
@@ -45,8 +46,7 @@ import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionM
 fun WearPermissionButton(
     label: String,
     modifier: Modifier = Modifier,
-    materialUIVersion: WearPermissionMaterialUIVersion =
-        WearPermissionMaterialUIVersion.MATERIAL2_5,
+    materialUIVersion: WearPermissionMaterialUIVersion = ResourceHelper.materialUIVersionInSettings,
     iconBuilder: WearPermissionIconBuilder? = null,
     labelMaxLines: Int? = null,
     secondaryLabel: String? = null,
@@ -63,7 +63,7 @@ fun WearPermissionButton(
             modifier = modifier,
             secondaryLabel = secondaryLabel,
             secondaryLabelMaxLines = secondaryLabelMaxLines,
-            icon = { iconBuilder?.build() },
+            icon = iconBuilder?.let { { iconBuilder.build() } },
             largeIcon = false,
             colors = style.material2ChipColors(),
             enabled = enabled,

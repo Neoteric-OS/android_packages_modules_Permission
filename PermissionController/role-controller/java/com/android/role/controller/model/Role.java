@@ -502,8 +502,8 @@ public class Role {
             return false;
         }
         return (Build.VERSION.SDK_INT >= mMinSdkVersion
-                // Workaround to match the value 35 for V in roles.xml before SDK finalization.
-                || (mMinSdkVersion == 35 && SdkLevel.isAtLeastV()))
+                // Workaround to match the value 36 for B in roles.xml before SDK finalization.
+                || (mMinSdkVersion == 36 && RoleFlags.isAtLeastB()))
                 && Build.VERSION.SDK_INT <= mMaxSdkVersion;
     }
 
@@ -1098,11 +1098,23 @@ public class Role {
      * @return whether this role should be visible to user
      */
     public boolean isVisibleAsUser(@NonNull UserHandle user, @NonNull Context context) {
-        RoleBehavior behavior = getBehavior();
-        if (behavior == null) {
-            return isVisible();
+        if (mBehavior != null) {
+            Boolean isVisibleAsUser = mBehavior.isVisibleAsUser(this, user, context);
+            if (isVisibleAsUser != null) {
+                if (isVisibleAsUser && mStatic) {
+                    throw new IllegalArgumentException("static=\"true\" is invalid for a visible "
+                            + "role: " + mName);
+                }
+                if (isVisibleAsUser && (mDescriptionResource == 0
+                        || mLabelResource == 0
+                        || mShortLabelResource == 0)) {
+                    throw new IllegalArgumentException("description, label, and shortLabel are "
+                            + "required for a visible role: " + mName);
+                }
+                return isVisibleAsUser;
+            }
         }
-        return isVisible() && behavior.isVisibleAsUser(this, user, context);
+        return isVisible();
     }
 
     /**

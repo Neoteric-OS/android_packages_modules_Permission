@@ -25,14 +25,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
-import androidx.wear.compose.material.ToggleChipDefaults
-import com.android.permissioncontroller.permission.ui.wear.elements.AlertDialog
-import com.android.permissioncontroller.permission.ui.wear.elements.ListFooter
 import com.android.permissioncontroller.permission.ui.wear.elements.ScrollableScreen
-import com.android.permissioncontroller.permission.ui.wear.elements.ToggleChip
-import com.android.permissioncontroller.permission.ui.wear.elements.ToggleChipToggleControl
-import com.android.permissioncontroller.permission.ui.wear.elements.toggleChipDisabledColors
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.DialogButtonContent
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionConfirmationDialog
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionIconBuilder
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionListFooter
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControl
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControlStyle
+import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControlType
+import com.android.permissioncontroller.permission.ui.wear.theme.ResourceHelper
+import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
 import com.android.permissioncontroller.role.ui.wear.model.ConfirmDialogArgs
 
 @Composable
@@ -41,11 +43,13 @@ fun WearDefaultAppScreen(helper: WearDefaultAppHelper) {
     val showConfirmDialog =
         helper.confirmDialogViewModel.showConfirmDialogLiveData.observeAsState(false)
     var isLoading by remember { mutableStateOf(true) }
+    val materialUIVersion = ResourceHelper.materialUIVersionInSettings
     Box {
         WearDefaultAppContent(isLoading, roleLiveData.value, helper)
         ConfirmDialog(
+            materialUIVersion = materialUIVersion,
             showDialog = showConfirmDialog.value,
-            args = helper.confirmDialogViewModel.confirmDialogArgs
+            args = helper.confirmDialogViewModel.confirmDialogArgs,
         )
     }
     if (isLoading && roleLiveData.value.isNotEmpty()) {
@@ -57,55 +61,59 @@ fun WearDefaultAppScreen(helper: WearDefaultAppHelper) {
 private fun WearDefaultAppContent(
     isLoading: Boolean,
     qualifyingApplications: List<Pair<ApplicationInfo, Boolean>>,
-    helper: WearDefaultAppHelper
+    helper: WearDefaultAppHelper,
 ) {
     ScrollableScreen(title = helper.getTitle(), isLoading = isLoading) {
         helper.getNonePreference(qualifyingApplications)?.let {
             item {
-                ToggleChip(
+                WearPermissionToggleControl(
                     label = it.title.toString(),
-                    icon = it.icon,
+                    iconBuilder = it.icon?.let { WearPermissionIconBuilder.builder(it) },
                     checked = it.checked,
                     onCheckedChanged = it.onDefaultCheckChanged,
-                    toggleControl = ToggleChipToggleControl.Radio,
-                    labelMaxLine = Integer.MAX_VALUE
+                    toggleControl = WearPermissionToggleControlType.Radio,
+                    labelMaxLines = Integer.MAX_VALUE,
                 )
             }
         }
         for (pref in helper.getPreferences(qualifyingApplications)) {
             item {
-                ToggleChip(
+                WearPermissionToggleControl(
                     label = pref.title.toString(),
-                    icon = pref.icon,
-                    colors =
+                    iconBuilder = pref.icon?.let { WearPermissionIconBuilder.builder(it) },
+                    style =
                         if (pref.isEnabled) {
-                            ToggleChipDefaults.toggleChipColors()
+                            WearPermissionToggleControlStyle.Default
                         } else {
-                            toggleChipDisabledColors()
+                            WearPermissionToggleControlStyle.DisabledLike
                         },
                     secondaryLabel = pref.summary?.toString(),
                     checked = pref.checked,
                     onCheckedChanged = pref.getOnCheckChanged(),
-                    toggleControl = ToggleChipToggleControl.Radio,
-                    labelMaxLine = Integer.MAX_VALUE,
-                    secondaryLabelMaxLine = Integer.MAX_VALUE
+                    toggleControl = WearPermissionToggleControlType.Radio,
+                    labelMaxLines = Integer.MAX_VALUE,
+                    secondaryLabelMaxLines = Integer.MAX_VALUE,
                 )
             }
         }
 
-        item { ListFooter(description = helper.getDescription()) }
+        item { WearPermissionListFooter(label = helper.getDescription()) }
     }
 }
 
 @Composable
-private fun ConfirmDialog(showDialog: Boolean, args: ConfirmDialogArgs?) {
-    args?.let {
-        AlertDialog(
-            showDialog = showDialog,
-            message = it.message,
-            onOKButtonClick = it.onOkButtonClick,
-            onCancelButtonClick = it.onCancelButtonClick,
-            scalingLazyListState = rememberScalingLazyListState()
+private fun ConfirmDialog(
+    materialUIVersion: WearPermissionMaterialUIVersion,
+    showDialog: Boolean,
+    args: ConfirmDialogArgs?,
+) {
+    args?.run {
+        WearPermissionConfirmationDialog(
+            materialUIVersion = materialUIVersion,
+            show = showDialog,
+            message = message,
+            positiveButtonContent = DialogButtonContent(onClick = onOkButtonClick),
+            negativeButtonContent = DialogButtonContent(onClick = onCancelButtonClick),
         )
     }
 }
