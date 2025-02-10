@@ -135,10 +135,19 @@ fun Context.findActivity(): Activity {
 interface ListScopeWrapper {
     fun item(key: Any? = null, contentType: Any? = null, content: @Composable () -> Unit)
 
+    fun items(
+        count: Int,
+        key: ((index: Int) -> Any)? = null,
+        contentType: (index: Int) -> Any? = { null },
+        content: @Composable (index: Int) -> Unit,
+    )
+
     fun expandableItems(
         state: ExpandableState,
         count: Int,
         key: ((index: Int) -> Any)? = null,
         itemContent: @Composable BoxScope.(index: Int) -> Unit,
     )
+
+    fun expandableButton(state: ExpandableState, key: Any? = null, content: @Composable () -> Unit)
 }
