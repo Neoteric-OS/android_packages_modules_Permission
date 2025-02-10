@@ -195,17 +195,15 @@
     <string name="app_permission_button_allow_limited_access" msgid="8824410215149764113">"Permitir acceso limitado"</string>
     <string name="precise_image_description" msgid="6349638632303619872">"Ubicación precisa"</string>
     <string name="approximate_image_description" msgid="938803699637069884">"Ubicación aproximada"</string>
-    <string name="app_permission_location_accuracy" msgid="7166912915040018669">"Usar ubic. precisa"</string>
+    <string name="app_permission_location_accuracy" msgid="7166912915040018669">"Ubicación precisa"</string>
     <string name="app_permission_location_accuracy_subtitle" msgid="2654077606404987210">"Cuando la ubicación precisa está desactivada, las aplicaciones pueden consultar tu ubicación aproximada"</string>
     <string name="app_permission_title" msgid="2090897901051370711">"Permiso de <xliff:g id="PERM">%1$s</xliff:g>"</string>
     <string name="app_permission_header" msgid="2951363137032603806">"Acceso a <xliff:g id="PERM">%1$s</xliff:g> para esta aplicación"</string>
     <string name="app_permission_header_with_device_name" msgid="7193042925656173271">"Acceso de <xliff:g id="PERM">%1$s</xliff:g> a esta aplicación en <xliff:g id="DEVICE_NAME">%2$s</xliff:g>"</string>
     <string name="app_permission_footer_app_permissions_link" msgid="4926890342636587393">"Ver todos los permisos de <xliff:g id="APP">%1$s</xliff:g>"</string>
     <string name="app_permission_footer_permission_apps_link" msgid="3941988129992794327">"Ver todas las aplicaciones con este permiso"</string>
-    <!-- no translation found for app_permission_info_button (8973692370208562556) -->
-    <skip />
-    <!-- no translation found for app_permission_settings_button (4582916817451973752) -->
-    <skip />
+    <string name="app_permission_info_button" msgid="8973692370208562556">"Información"</string>
+    <string name="app_permission_settings_button" msgid="4582916817451973752">"Ajustes"</string>
     <string name="assistant_mic_label" msgid="1011432357152323896">"Mostrar el uso del micrófono del Asistente"</string>
     <string name="unused_apps_category_title" msgid="2988455616845243901">"Ajustes de aplicaciones sin usar"</string>
     <string name="auto_revoke_label" msgid="5068393642936571656">"Quitar permisos si la aplicación no se usa"</string>
@@ -442,6 +440,10 @@
     <string name="default_apps_manage_domain_urls" msgid="6775566451561036069">"Abrir enlaces"</string>
     <string name="default_apps_for_work" msgid="4970308943596201811">"Predeterminadas para trabajo"</string>
     <string name="default_apps_for_private_profile" msgid="2022024112144880785">"Predeterminadas para el espacio privado"</string>
+    <!-- no translation found for default_app_recommended (5669584821778942909) -->
+    <skip />
+    <!-- no translation found for default_app_others (7793029848126079876) -->
+    <skip />
     <string name="default_app_none" msgid="9084592086808194457">"Ninguna"</string>
     <string name="default_app_system_default" msgid="6218386768175513760">"(Predeterminado del sistema)"</string>
     <string name="default_app_no_apps" msgid="115720991680586885">"No hay aplicaciones"</string>
@@ -678,16 +680,11 @@
     <string name="allow_restricted_settings" msgid="8073000189478396881">"Permitir ajustes restringidos"</string>
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"Ajuste restringido"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"Por seguridad, este ajuste no está disponible actualmente."</string>
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_title (5054064107559019689) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_desc (5049619986796367451) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_install_desc_prefix (7153600694011441796) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_a11y_desc_prefix (1086282331085551407) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_generic_desc_prefix (8141411486179553156) -->
-    <skip />
+    <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"No se puede completar la acción durante la llamada"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="5049619986796367451">"<xliff:g id="SETTING_DESCRIPTION">%1$s</xliff:g>\n\n Este ajuste está bloqueado para proteger tu dispositivo y tus datos"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_install_desc_prefix" msgid="7153600694011441796">"Los estafadores pueden pedirte que instales aplicaciones de una fuente nueva para instalar aplicaciones dañinas."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_a11y_desc_prefix" msgid="1086282331085551407">"Los estafadores pueden solicitarte acceso a los ajustes de accesibilidad de una aplicación para intentar tomar el control de tu dispositivo."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_generic_desc_prefix" msgid="8141411486179553156">"Los estafadores pueden intentar dañar tu dispositivo con este ajuste."</string>
     <string name="enhanced_confirmation_dialog_title_permission" msgid="2149144789394238266">"Se ha denegado el acceso a <xliff:g id="PERMISSION_NAME">%1$s</xliff:g> a la aplicación"</string>
     <string name="enhanced_confirmation_dialog_desc_permission" msgid="3150778951946468945">"La aplicación ha solicitado acceso a un permiso sensible que puede poner en riesgo tu información personal y financiera.<xliff:g id="ID_1">&lt;br&gt;&lt;br&gt;</xliff:g>Es posible que la aplicación no funcione correctamente sin este permiso restringido. &lt;a href=<xliff:g id="LEARN_MORE_LINK">%1$s</xliff:g>&gt;Consulta cómo permitir el acceso&lt;/a&gt;."</string>
     <string name="enhanced_confirmation_dialog_title_role" msgid="1737023798483772780">"Se ha denegado el acceso para que la aplicación sea <xliff:g id="ROLE_NAME">%1$s</xliff:g> predeterminada"</string>

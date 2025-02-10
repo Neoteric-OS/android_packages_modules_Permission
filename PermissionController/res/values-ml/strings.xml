@@ -440,6 +440,8 @@
     <string name="default_apps_manage_domain_urls" msgid="6775566451561036069">"ലിങ്കുകൾ തുറക്കൽ"</string>
     <string name="default_apps_for_work" msgid="4970308943596201811">"ജോലി ആവശ്യങ്ങൾക്ക് ഡിഫോൾട്ട്"</string>
     <string name="default_apps_for_private_profile" msgid="2022024112144880785">"സ്വകാര്യ സ്പേസിനായുള്ള ഡിഫോൾട്ട്"</string>
+    <string name="default_app_recommended" msgid="5669584821778942909">"ഉപകരണത്തിനായി ഒപ്റ്റിമൈസ് ചെയ്‌തു"</string>
+    <string name="default_app_others" msgid="7793029848126079876">"മറ്റുള്ളവ"</string>
     <string name="default_app_none" msgid="9084592086808194457">"ഒന്നുമില്ല"</string>
     <string name="default_app_system_default" msgid="6218386768175513760">"(സിസ്‌റ്റം ഡിഫോൾട്ട്)"</string>
     <string name="default_app_no_apps" msgid="115720991680586885">"ആപ്പുകൾ ഒന്നുമില്ല"</string>
@@ -676,16 +678,11 @@
     <string name="allow_restricted_settings" msgid="8073000189478396881">"നിയന്ത്രിത ക്രമീകരണം അനുവദിക്കുക"</string>
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"നിയന്ത്രിത ക്രമീകരണം"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"നിങ്ങളുടെ സുരക്ഷയ്ക്ക്, ഈ ക്രമീകരണം നിലവിൽ ലഭ്യമല്ല."</string>
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_title (5054064107559019689) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_desc (5049619986796367451) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_install_desc_prefix (7153600694011441796) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_a11y_desc_prefix (1086282331085551407) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_generic_desc_prefix (8141411486179553156) -->
-    <skip />
+    <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"കോളിനിടെ പ്രവർത്തനം പൂർത്തിയാക്കാനാവില്ല"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="5049619986796367451">"<xliff:g id="SETTING_DESCRIPTION">%1$s</xliff:g>\n\n നിങ്ങളുടെ ഉപകരണവും ഡാറ്റയും പരിരക്ഷിക്കാൻ ഈ ക്രമീകരണം ബ്ലോക്ക് ചെയ്തിരിക്കുന്നു"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_install_desc_prefix" msgid="7153600694011441796">"പുതിയൊരു ഉറവിടത്തിൽ നിന്നുള്ള അജ്ഞാതമായ ആപ്പുകൾ ഇൻസ്റ്റാൾ ചെയ്യാൻ നിങ്ങളോട് അവശ്യപ്പെട്ടുകൊണ്ട് സ്‌കാമർമാർ ദോഷകരമായ ആപ്പുകൾ ഇൻസ്റ്റാൾ ചെയ്യാൻ ശ്രമിച്ചേക്കാം."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_a11y_desc_prefix" msgid="1086282331085551407">"ഒരു ആപ്പിനായുള്ള ഉപയോഗസഹായി ആക്സസ് അനുവദിക്കാൻ നിങ്ങളോട് ആവശ്യപ്പെട്ടുകൊണ്ട് സ്‌കാമർമാർ നിങ്ങളുടെ ഉപകരണത്തിന്റെ നിയന്ത്രണം ഏറ്റെടുക്കാൻ ശ്രമിച്ചേക്കാം."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_generic_desc_prefix" msgid="8141411486179553156">"ഈ ക്രമീകരണം ഉപയോഗിച്ച് നിങ്ങളുടെ ഉപകരണത്തിന് ദോഷം വരുത്താൻ സ്‌കാമർമാർ ശ്രമിച്ചേക്കാം."</string>
     <string name="enhanced_confirmation_dialog_title_permission" msgid="2149144789394238266">"ആപ്പിന് <xliff:g id="PERMISSION_NAME">%1$s</xliff:g> എന്നതിലേക്കുള്ള ആക്‌സസ് നിരസിച്ചു"</string>
     <string name="enhanced_confirmation_dialog_desc_permission" msgid="3150778951946468945">"ആപ്പ് സെൻസിറ്റീവ് വിവരങ്ങൾക്കുള്ള അനുമതിയിലേക്ക് ആക്‌സസ് അഭ്യർത്ഥിച്ചു, ഇത് നിങ്ങളുടെ വ്യക്തിപരവും സാമ്പത്തികവുമായ വിവരങ്ങളെ അപകടത്തിലാക്കിയേക്കാം.<xliff:g id="ID_1">&lt;br&gt;&lt;br&gt;</xliff:g>ഈ നിയന്ത്രിത അനുമതിയില്ലാതെ ആപ്പ് ശരിയായി പ്രവർത്തിച്ചേക്കില്ല. &lt;a href=<xliff:g id="LEARN_MORE_LINK">%1$s</xliff:g>&gt;ആക്സസ് എങ്ങനെ അനുവദിക്കുന്നുവെന്നറിയുക&lt;/a&gt;"</string>
     <string name="enhanced_confirmation_dialog_title_role" msgid="1737023798483772780">"ആപ്പിന് ഡിഫോൾട്ട് <xliff:g id="ROLE_NAME">%1$s</xliff:g> ആകാനുള്ള ആക്‌സസ് നിരസിച്ചു"</string>

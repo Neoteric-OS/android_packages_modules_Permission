@@ -440,6 +440,10 @@
     <string name="default_apps_manage_domain_urls" msgid="6775566451561036069">"లింక్‌లను తెరవడం"</string>
     <string name="default_apps_for_work" msgid="4970308943596201811">"వర్క్‌ ప్లేస్ కోసం ఆటోమేటిక్"</string>
     <string name="default_apps_for_private_profile" msgid="2022024112144880785">"ఆటోమేటిక్‌గా ప్రైవేట్ స్పేస్"</string>
+    <!-- no translation found for default_app_recommended (5669584821778942909) -->
+    <skip />
+    <!-- no translation found for default_app_others (7793029848126079876) -->
+    <skip />
     <string name="default_app_none" msgid="9084592086808194457">"ఏదీ కాదు"</string>
     <string name="default_app_system_default" msgid="6218386768175513760">"(సిస్టమ్ ఆటోమేటిక్)"</string>
     <string name="default_app_no_apps" msgid="115720991680586885">"ఏ యాప్ లేదు"</string>
@@ -676,16 +680,11 @@
     <string name="allow_restricted_settings" msgid="8073000189478396881">"పరిమితం చేసిన సెట్టింగ్‌లను అనుమతించండి"</string>
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"పరిమితం చేయబడిన సెట్టింగ్"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"మీ సెక్యూరిటీ కోసం, ఈ సెట్టింగ్ ప్రస్తుతం అందుబాటులో లేదు."</string>
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_title (5054064107559019689) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_desc (5049619986796367451) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_install_desc_prefix (7153600694011441796) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_a11y_desc_prefix (1086282331085551407) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_generic_desc_prefix (8141411486179553156) -->
-    <skip />
+    <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"కాల్ మాట్లాడే సమయంలో చర్యను పూర్తి చేయడం కుదరదు"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="5049619986796367451">"<xliff:g id="SETTING_DESCRIPTION">%1$s</xliff:g>\n\n మీ పరికరాన్ని, డేటాను సురక్షితంగా ఉంచేందుకు ఈ సెట్టింగ్ బ్లాక్ చేయబడింది"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_install_desc_prefix" msgid="7153600694011441796">"స్కామర్‌లు మిమ్మల్ని కొత్త సోర్స్ నుండి తెలియని యాప్‌లను ఇన్‌స్టాల్ చేయమని అడగడం ద్వారా హానికరమైన యాప్‌లను ఇన్‌స్టాల్ చేయడానికి ట్రై చేయవచ్చు."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_a11y_desc_prefix" msgid="1086282331085551407">"స్కామర్‌లు మిమ్నల్ని యాప్ కోసం యాక్సెసిబిలిటీ యాక్సెస్‌ను అనుమతించమని అడగడం ద్వారా మీ పరికరాన్ని కంట్రోల్ చేసే అవకాశం ఉంది."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_generic_desc_prefix" msgid="8141411486179553156">"ఈ సెట్టింగ్ ద్వారా స్కామర్‌లు మీ పరికరానికి హాని కలిగించేందుకు ప్రయత్నించవచ్చు."</string>
     <string name="enhanced_confirmation_dialog_title_permission" msgid="2149144789394238266">"యాప్ <xliff:g id="PERMISSION_NAME">%1$s</xliff:g>‌కు యాక్సెస్ తిరస్కరించబడింది"</string>
     <string name="enhanced_confirmation_dialog_desc_permission" msgid="3150778951946468945">"మీ వ్యక్తిగత, ఆర్థిక సమాచారాన్ని ప్రమాదంలో పడేసే గోప్యమైన సమాచార యాక్సెస్ అనుమతికి యాప్ యాక్సెస్‌ను రిక్వెస్ట్ చేయడం జరిగింది.<xliff:g id="ID_1">&lt;br&gt;&lt;br&gt;</xliff:g>ఈ అదనపు అవసరాలు గల అనుమతి లేకుండా యాప్ సరిగ్గా పని చేయకపోయే అవకాశం ఉంది. &lt;a href=<xliff:g id="LEARN_MORE_LINK">%1$s</xliff:g>&gt;యాక్సెస్‌ను అనుమతించడం ఎలాగో తెలుసుకోండి&lt;/a&gt;"</string>
     <string name="enhanced_confirmation_dialog_title_role" msgid="1737023798483772780">"ఆటోమేటిక్ <xliff:g id="ROLE_NAME">%1$s</xliff:g>‌గా ఉండటానికి యాప్‌నకు యాక్సెస్ నిరాకరించబడింది"</string>
