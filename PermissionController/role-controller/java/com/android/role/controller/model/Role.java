@@ -501,7 +501,7 @@ public class Role {
         }
         return (Build.VERSION.SDK_INT >= mMinSdkVersion
                 // Workaround to match the value 36 for B in roles.xml before SDK finalization.
-                || (mMinSdkVersion == 36 && RoleFlags.isAtLeastB()))
+                || (mMinSdkVersion == 36 && SdkLevel.isAtLeastB()))
                 && Build.VERSION.SDK_INT <= mMaxSdkVersion;
     }
 
