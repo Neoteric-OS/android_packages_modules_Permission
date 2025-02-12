@@ -78,10 +78,12 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
         assertAppHasPermission(ACCESS_FINE_LOCATION, false)
         assertAppHasPermission(ACCESS_COARSE_LOCATION, false)
         assertAppHasPermission(ACCESS_BACKGROUND_LOCATION, false)
+        val waitForWindowTransition = SdkLevel.isAtLeastB();
 
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to true,
-            ACCESS_COARSE_LOCATION to true
+            ACCESS_COARSE_LOCATION to true,
+            waitForWindowTransition = waitForWindowTransition
         ) {
             clickPreciseLocationRadioButton()
             clickCoarseLocationRadioButton()
