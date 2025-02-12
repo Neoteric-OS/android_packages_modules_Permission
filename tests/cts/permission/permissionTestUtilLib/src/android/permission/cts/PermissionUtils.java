@@ -384,7 +384,7 @@ public class PermissionUtils {
         simulateReboot(packageName, intentAction, broadcastReceiver);
 
         while ((System.currentTimeMillis() - startTime) < timeout
-                && !jobStatus.contains("waiting")) {
+                && !isJobScheduled(jobStatus)) {
             String cmd =
                     "cmd jobscheduler get-job-state -u " + Process.myUserHandle().getIdentifier()
                             + " " + packageName + " " + jobId;
@@ -396,9 +396,14 @@ public class PermissionUtils {
                 // ignore interrupt
             }
         }
-        if (!jobStatus.contains("waiting")) {
+        if (!isJobScheduled(jobStatus)) {
             throw new IllegalStateException("The job didn't get scheduled in time.");
         }
+    }
+
+    private static boolean isJobScheduled(String jobStatus) throws Exception {
+        return jobStatus.contains("waiting") || jobStatus.contains("pending")
+            || jobStatus.contains("ready") || jobStatus.contains("active");
     }
 
     private static void simulateReboot(@NonNull String packageName, @NonNull String intentAction,
