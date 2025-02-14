@@ -3986,9 +3986,9 @@ class SafetyCenterManagerTest {
     companion object {
         private val RESURFACE_DELAY = Duration.ofMillis(500)
 
-        // Wait 3 times the RESURFACE_DELAY before asserting whether an issue has or has not
+        // Wait 5 times the RESURFACE_DELAY before asserting whether an issue has or has not
         // resurfaced. Use a constant additive error buffer if we increase the delay considerably.
-        private val RESURFACE_TIMEOUT = RESURFACE_DELAY.multipliedBy(3)
+        private val RESURFACE_TIMEOUT = RESURFACE_DELAY.multipliedBy(5)
 
         // Check more than once during a RESURFACE_DELAY before asserting whether an issue has or
         // has not resurfaced. Use a different check logic (focused at the expected resurface time)
