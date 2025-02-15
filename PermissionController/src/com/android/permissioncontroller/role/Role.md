@@ -56,6 +56,13 @@ receive short text messages, photos, videos, and more". For default apps, this s
 the default app detail page as a footer. This attribute is required if the role is `visible`.
 - `exclusive`: Whether the role is exclusive. If a role is exclusive, at most one application is
 allowed to be its holder.
+- `exclusivity`: Whether the role is exclusive and what type of exclusivity behavior it has. A role
+can have exclusivity of `none`, `user`, or `profileGroup`.
+  - `none`: Role allows multiple holders
+  - `user`: Role allows at most one holder within each user
+  - `profileGroup`: (SDK 36+ only, fallsback to `user` on lower SDK) Role allows at most one holder
+within a profile group (e.g. full user and work
+profile)
 - `fallBackToDefaultHolder`: Whether the role should fall back to the default holder. This attribute
 is optional and defaults to `false`.
 - `featureFlag`: Optional feature flag for the role be available, as the fully qualified name of
