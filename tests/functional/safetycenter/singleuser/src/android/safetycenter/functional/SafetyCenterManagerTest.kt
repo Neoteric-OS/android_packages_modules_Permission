@@ -75,6 +75,7 @@ import com.android.safetycenter.internaldata.SafetyCenterIds
 import com.android.safetycenter.resources.SafetyCenterResourcesApk
 import com.android.safetycenter.testing.Coroutines.TIMEOUT_LONG
 import com.android.safetycenter.testing.Coroutines.TIMEOUT_SHORT
+import com.android.safetycenter.testing.Coroutines.assertWithTimeout
 import com.android.safetycenter.testing.Coroutines.waitForWithTimeout
 import com.android.safetycenter.testing.SafetyCenterApisWithShellPermissions.dismissSafetyCenterIssueWithPermission
 import com.android.safetycenter.testing.SafetyCenterApisWithShellPermissions.getSafetyCenterConfigWithPermission
@@ -2356,18 +2357,14 @@ class SafetyCenterManagerTest {
                     groupId = MULTIPLE_SOURCES_GROUP_ID_2,
                 )
             )
-        waitForWithTimeout(timeout = RESURFACE_TIMEOUT, checkPeriod = RESURFACE_CHECK) {
-            val hasResurfaced =
-                safetyCenterManager
-                    .getSafetyCenterDataWithPermission()
-                    .issues
-                    .contains(
-                        safetyCenterTestData.safetyCenterIssueCritical(
-                            SOURCE_ID_5,
-                            groupId = MULTIPLE_SOURCES_GROUP_ID_2,
-                        )
+        assertWithTimeout(timeout = RESURFACE_TIMEOUT, checkPeriod = RESURFACE_CHECK) {
+            assertThat(safetyCenterManager.getSafetyCenterDataWithPermission().issues)
+                .contains(
+                    safetyCenterTestData.safetyCenterIssueCritical(
+                        SOURCE_ID_5,
+                        groupId = MULTIPLE_SOURCES_GROUP_ID_2,
                     )
-            hasResurfaced
+                )
         }
     }
 
