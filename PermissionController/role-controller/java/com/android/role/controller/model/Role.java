@@ -504,8 +504,14 @@ public class Role {
                 && Build.VERSION.SDK_INT <= mMaxSdkVersion;
     }
 
-    public boolean isStatic() {
-        return mStatic;
+    /**
+     * Check whether this role is static, which may change due to bypassing qualification.
+     *
+     * @param context the {@code Context} to retrieve system services
+     * @return whether this role is static
+     */
+    public boolean isStatic(@NonNull Context context) {
+        return mStatic && !isBypassingQualification(context);
     }
 
     /**
@@ -620,6 +626,12 @@ public class Role {
         return mAllowBypassingQualification;
     }
 
+    private boolean isBypassingQualification(@NonNull Context context) {
+        RoleManager roleManager = context.getSystemService(RoleManager.class);
+        return shouldAllowBypassingQualification(context)
+                && RoleManagerCompat.isBypassingRoleQualification(roleManager);
+    }
+
     /**
      * Check whether a package is qualified for this role, i.e. whether it contains all the required
      * components (plus meeting some other general restrictions).
@@ -632,9 +644,7 @@ public class Role {
      */
     public boolean isPackageQualifiedAsUser(@NonNull String packageName, @NonNull UserHandle user,
             @NonNull Context context) {
-        RoleManager roleManager = context.getSystemService(RoleManager.class);
-        if (shouldAllowBypassingQualification(context)
-                && RoleManagerCompat.isBypassingRoleQualification(roleManager)) {
+        if (isBypassingQualification(context)) {
             return true;
         }
 
