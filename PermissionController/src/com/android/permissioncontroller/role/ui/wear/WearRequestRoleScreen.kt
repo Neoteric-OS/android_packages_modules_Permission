@@ -16,8 +16,6 @@
 
 package com.android.permissioncontroller.role.ui.wear
 
-import android.content.pm.ApplicationInfo
-import android.util.Pair
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -31,18 +29,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.android.permissioncontroller.R
-import com.android.permissioncontroller.permission.ui.wear.elements.ScrollableScreen
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionButton
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionButtonStyle
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionIconBuilder
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionListFooter
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControl
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControlStyle
-import com.android.permissioncontroller.permission.ui.wear.elements.material3.WearPermissionToggleControlType
-import com.android.permissioncontroller.permission.ui.wear.theme.ResourceHelper
-import com.android.permissioncontroller.permission.ui.wear.theme.WearPermissionMaterialUIVersion
 import com.android.permissioncontroller.role.UserPackage
 import com.android.permissioncontroller.role.ui.ManageRoleHolderStateLiveData
+import com.android.permissioncontroller.role.ui.RoleApplicationItem
+import com.android.permissioncontroller.wear.permission.components.ScrollableScreen
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionButton
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionButtonStyle
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionIconBuilder
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionListFooter
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionToggleControl
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionToggleControlStyle
+import com.android.permissioncontroller.wear.permission.components.material3.WearPermissionToggleControlType
+import com.android.permissioncontroller.wear.permission.components.theme.ResourceHelper
+import com.android.permissioncontroller.wear.permission.components.theme.WearPermissionMaterialUIVersion
 
 @Composable
 fun WearRequestRoleScreen(
@@ -50,7 +49,7 @@ fun WearRequestRoleScreen(
     onSetAsDefault: (Boolean, UserPackage?) -> Unit,
     onCanceled: () -> Unit,
 ) {
-    val roleLiveData = helper.viewModel.roleLiveData.observeAsState(emptyList())
+    val roleLiveData = helper.viewModel.liveData.observeAsState(emptyList())
     val manageRoleHolderState =
         helper.viewModel.manageRoleHolderStateLiveData.observeAsState(
             ManageRoleHolderStateLiveData.STATE_WORKING
@@ -102,7 +101,7 @@ internal fun WearRequestRoleContent(
     materialUIVersion: WearPermissionMaterialUIVersion,
     isLoading: Boolean,
     helper: WearRequestRoleHelper,
-    qualifyingApplications: List<Pair<ApplicationInfo, Boolean>>,
+    applicationItems: List<RoleApplicationItem>,
     enabled: Boolean,
     dontAskAgain: Boolean,
     selectedPackage: UserPackage?,
@@ -118,7 +117,7 @@ internal fun WearRequestRoleContent(
         showTimeText = false,
         isLoading = isLoading,
     ) {
-        helper.getNonePreference(qualifyingApplications, selectedPackage)?.let { pref ->
+        helper.getNonePreference(applicationItems, selectedPackage)?.let { pref ->
             item {
                 WearPermissionToggleControl(
                     materialUIVersion = materialUIVersion,
@@ -143,7 +142,7 @@ internal fun WearRequestRoleContent(
             }
         }
 
-        for (pref in helper.getPreferences(qualifyingApplications, selectedPackage)) {
+        for (pref in helper.getPreferences(applicationItems, selectedPackage)) {
             item {
                 WearPermissionToggleControl(
                     materialUIVersion = materialUIVersion,

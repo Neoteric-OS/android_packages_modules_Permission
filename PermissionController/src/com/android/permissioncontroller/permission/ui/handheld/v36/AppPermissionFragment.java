@@ -561,7 +561,6 @@ public class AppPermissionFragment extends SettingsWithLargeHeader
             mDetails.setSummary(getPreferenceManager().getContext().getString(
                     detailResIds.getFirst(), detailResIds.getSecond()));
         } else {
-            mDetails.setOnSecondTargetClickListener(null);
             mDetails.setSummary(getPreferenceManager().getContext().getString(
                     detailResIds.getFirst()));
         }
