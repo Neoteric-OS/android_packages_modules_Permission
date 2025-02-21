@@ -31,6 +31,7 @@ import android.util.Pair
 import androidx.test.filters.SdkSuppress
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
+import com.android.bedstead.enterprise.annotations.EnsureDoesNotHaveUserRestriction
 import com.android.bedstead.enterprise.annotations.EnsureHasNoWorkProfile
 import com.android.bedstead.enterprise.annotations.EnsureHasUserRestriction
 import com.android.bedstead.enterprise.annotations.EnsureHasWorkProfile
@@ -53,6 +54,7 @@ import com.android.bedstead.nene.TestApis.context
 import com.android.bedstead.nene.TestApis.permissions
 import com.android.bedstead.nene.TestApis.users
 import com.android.bedstead.nene.types.OptionalBoolean
+import com.android.bedstead.nene.userrestrictions.CommonUserRestrictions.DISALLOW_ADD_MANAGED_PROFILE
 import com.android.bedstead.nene.users.UserReference
 import com.android.bedstead.nene.users.UserType
 import com.android.bedstead.permissions.CommonPermissions.INTERACT_ACROSS_USERS_FULL
@@ -570,6 +572,7 @@ class RoleManagerMultiUserTest {
     @EnsureCanAddUser
     @EnsureHasNoWorkProfile
     @RequireRunOnPrimaryUser
+    @EnsureDoesNotHaveUserRestriction(DISALLOW_ADD_MANAGED_PROFILE)
     @Test
     @Throws(Exception::class)
     fun ensureActiveUserSetToParentOnUserRemoved() {
