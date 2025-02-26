@@ -481,6 +481,47 @@ class RoleManagerMultiUserTest {
         assertExpectedProfileHasRoleUsingGetRoleHoldersAsUser(targetActiveUser)
     }
 
+    @RequireFlagsEnabled(
+        com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_ENABLED,
+        com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_UX_BUGFIX_ENABLED,
+    )
+    @EnsureHasPermission(INTERACT_ACROSS_USERS_FULL, MANAGE_ROLE_HOLDERS)
+    @EnsureHasWorkProfile
+    @RequireRunOnPrimaryUser
+    @Test
+    @Throws(java.lang.Exception::class)
+    fun addRoleHolderAsUserReenablesFallbackOnProfileParent() {
+        // Set other user as active
+        val initialUserReference = deviceState.initialUser()
+        val initialUser = initialUserReference.userHandle()
+        roleManager.setActiveUserForRole(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, initialUser, 0)
+        assertThat(roleManager.getActiveUserForRole(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME))
+            .isEqualTo(initialUser)
+
+        val profileParentRoleManager = getRoleManagerForUser(initialUserReference)
+        profileParentRoleManager.setRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, false)
+        assertThat(
+                profileParentRoleManager.isRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME)
+            )
+            .isFalse()
+
+        val targetActiveUser = deviceState.workProfile().userHandle()
+        val future = CallbackFuture()
+        roleManager.addRoleHolderAsUser(
+            PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME,
+            APP_PACKAGE_NAME,
+            0,
+            targetActiveUser,
+            context.mainExecutor,
+            future,
+        )
+        assertThat(future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)).isTrue()
+        assertThat(
+                profileParentRoleManager.isRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME)
+            )
+            .isTrue()
+    }
+
     @RequireFlagsEnabled(com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_ENABLED)
     @EnsureHasPermission(MANAGE_DEFAULT_APPLICATIONS)
     @EnsureDoesNotHavePermission(INTERACT_ACROSS_USERS_FULL)
@@ -573,6 +614,50 @@ class RoleManagerMultiUserTest {
         assertThat(roleManager.getActiveUserForRole(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME))
             .isEqualTo(targetActiveUser)
         eventually { assertExpectedProfileHasRoleUsingGetDefaultApplication(targetActiveUser) }
+    }
+
+    @RequireFlagsEnabled(
+        com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_ENABLED,
+        com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_UX_BUGFIX_ENABLED,
+    )
+    @EnsureHasPermission(
+        INTERACT_ACROSS_USERS_FULL,
+        MANAGE_DEFAULT_APPLICATIONS,
+        MANAGE_ROLE_HOLDERS,
+    )
+    @EnsureHasWorkProfile
+    @RequireRunOnPrimaryUser
+    @Test
+    @Throws(java.lang.Exception::class)
+    fun setDefaultApplicationReenablesFallbackOnProfileParent() {
+        // Set other user as active
+        val initialUserReference = deviceState.initialUser()
+        val initialUser = initialUserReference.userHandle()
+        roleManager.setActiveUserForRole(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, initialUser, 0)
+        assertThat(roleManager.getActiveUserForRole(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME))
+            .isEqualTo(initialUser)
+
+        val profileParentRoleManager = getRoleManagerForUser(initialUserReference)
+        profileParentRoleManager.setRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, false)
+        assertThat(
+                profileParentRoleManager.isRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME)
+            )
+            .isFalse()
+
+        val future = CallbackFuture()
+        getRoleManagerForUser(deviceState.workProfile())
+            .setDefaultApplication(
+                PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME,
+                APP_PACKAGE_NAME,
+                0,
+                context.mainExecutor,
+                future,
+            )
+        assertThat(future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)).isTrue()
+        assertThat(
+                profileParentRoleManager.isRoleFallbackEnabled(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME)
+            )
+            .isTrue()
     }
 
     @RequireFlagsEnabled(com.android.permission.flags.Flags.FLAG_CROSS_USER_ROLE_ENABLED)
