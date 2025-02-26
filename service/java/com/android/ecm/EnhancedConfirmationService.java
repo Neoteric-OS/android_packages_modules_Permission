@@ -34,6 +34,7 @@ import android.app.ecm.IEnhancedConfirmationManager;
 import android.app.role.RoleManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.InstallSourceInfo;
 import android.content.pm.PackageInstaller;
@@ -44,6 +45,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemConfigManager;
 import android.os.UserHandle;
@@ -112,7 +114,6 @@ public class EnhancedConfirmationService extends SystemService {
                 new EnhancedConfirmationManagerLocalImpl(this));
     }
 
-    private ContentResolver mContentResolver;
     private TelephonyManager mTelephonyManager;
 
     @GuardedBy("mUserAccessibilityManagers")
@@ -130,7 +131,6 @@ public class EnhancedConfirmationService extends SystemService {
                 systemConfigManager.getEnhancedConfirmationTrustedInstallers());
 
         publishBinderService(Context.ECM_ENHANCED_CONFIRMATION_SERVICE, new Stub());
-        mContentResolver = getContext().getContentResolver();
         mTelephonyManager = getContext().getSystemService(TelephonyManager.class);
     }
 
@@ -186,10 +186,16 @@ public class EnhancedConfirmationService extends SystemService {
             // device, either because the device lacks telephony calling, or the telephony service
             // is unavailable.
         }
+        UserHandle user = getContext().getUser();
+        Bundle extras = call.getDetails().getExtras();
+        if (extras != null) {
+                user = extras.getParcelable(Intent.EXTRA_USER_HANDLE, UserHandle.class);
+        }
         if (number != null) {
-            return hasContactWithPhoneNumber(number) ? CALL_TYPE_TRUSTED : CALL_TYPE_UNTRUSTED;
+            return hasContactWithPhoneNumber(number, user)
+                    ? CALL_TYPE_TRUSTED : CALL_TYPE_UNTRUSTED;
         } else {
-            return hasContactWithDisplayName(call.getDetails().getCallerDisplayName())
+            return hasContactWithDisplayName(call.getDetails().getCallerDisplayName(), user)
                     ? CALL_TYPE_TRUSTED : CALL_TYPE_UNTRUSTED;
         }
     }
@@ -206,7 +212,7 @@ public class EnhancedConfirmationService extends SystemService {
     }
 
     @WorkerThread
-    private boolean hasContactWithPhoneNumber(String phoneNumber) {
+    private boolean hasContactWithPhoneNumber(String phoneNumber, UserHandle user) {
         assertNotMainThread();
         if (phoneNumber == null) {
             return false;
@@ -217,13 +223,13 @@ public class EnhancedConfirmationService extends SystemService {
                 PhoneLookup.DISPLAY_NAME,
                 ContactsContract.PhoneLookup._ID
         };
-        try (Cursor res = mContentResolver.query(uri, projection, null, null)) {
+        try (Cursor res = getUserContentResolver(user).query(uri, projection, null, null)) {
             return res != null && res.getCount() > 0;
         }
     }
 
     @WorkerThread
-    private boolean hasContactWithDisplayName(String displayName) {
+    private boolean hasContactWithDisplayName(String displayName, UserHandle user) {
         assertNotMainThread();
         if (displayName == null) {
             return false;
@@ -232,9 +238,14 @@ public class EnhancedConfirmationService extends SystemService {
         String[] projection = new String[]{PhoneLookup._ID};
         String selection = StructuredName.DISPLAY_NAME + " = ?";
         String[] selectionArgs = new String[]{displayName};
-        try (Cursor res = mContentResolver.query(uri, projection, selection, selectionArgs, null)) {
+        try (Cursor res = getUserContentResolver(user)
+                .query(uri, projection, selection, selectionArgs, null)) {
             return res != null && res.getCount() > 0;
         }
+    }
+
+    private ContentResolver getUserContentResolver(UserHandle user) {
+        return getContext().createContextAsUser(user, 0).getContentResolver();
     }
 
     private boolean hasCallOfType(@CallType int callType) {
