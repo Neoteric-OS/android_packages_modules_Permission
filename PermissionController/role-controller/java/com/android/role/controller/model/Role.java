@@ -992,7 +992,14 @@ public class Role {
      */
     public void onHolderAddedAsUser(@NonNull String packageName, @NonNull UserHandle user,
             @NonNull Context context) {
-        RoleManagerCompat.setRoleFallbackEnabledAsUser(this, true, user, context);
+        if (RoleFlags.isProfileGroupExclusivityAvailable()
+                && com.android.permission.flags.Flags.crossUserRoleUxBugfixEnabled()
+                && getExclusivity() == Role.EXCLUSIVITY_PROFILE_GROUP) {
+            UserHandle profileParent = UserUtils.getProfileParentOrSelf(user, context);
+            RoleManagerCompat.setRoleFallbackEnabledAsUser(this, true, profileParent, context);
+        } else {
+            RoleManagerCompat.setRoleFallbackEnabledAsUser(this, true, user, context);
+        }
     }
 
     /**
