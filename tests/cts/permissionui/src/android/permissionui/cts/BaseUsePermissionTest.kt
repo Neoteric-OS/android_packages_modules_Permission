@@ -36,6 +36,7 @@ import android.os.Build
 import android.os.Process
 import android.provider.DeviceConfig
 import android.provider.Settings
+import android.server.wm.WindowManagerStateHelper
 import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.util.Log
@@ -246,6 +247,8 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
         DENIED,
         DENIED_WITH_PREJUDICE
     }
+
+    private val windowManagerStateHelper = WindowManagerStateHelper()
 
     private val platformResources = context.createPackageContext("android", 0).resources
     private val permissionToLabelResNameMap =
@@ -674,21 +677,20 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
         crossinline block: () -> Unit,
     ): Instrumentation.ActivityResult {
         // Request the permissions
-        lateinit var future: CompletableFuture<Instrumentation.ActivityResult>
-        doAndWaitForWindowTransition {
-            future =
-                startActivityForFuture(
-                    Intent().apply {
-                        component =
-                            ComponentName(
-                                APP_PACKAGE_NAME,
-                                "$APP_PACKAGE_NAME.RequestPermissionsActivity"
-                            )
-                        putExtra("$APP_PACKAGE_NAME.PERMISSIONS", permissions)
-                        putExtra("$APP_PACKAGE_NAME.ASK_TWICE", askTwice)
-                    }
-                )
-        }
+        val future =
+            startActivityForFuture(
+                Intent().apply {
+                    component =
+                        ComponentName(
+                            APP_PACKAGE_NAME,
+                            "$APP_PACKAGE_NAME.RequestPermissionsActivity"
+                        )
+                    putExtra("$APP_PACKAGE_NAME.PERMISSIONS", permissions)
+                    putExtra("$APP_PACKAGE_NAME.ASK_TWICE", askTwice)
+                }
+            )
+
+        waitForPermissionRequestActivity()
 
         // Notification permission prompt is shown first, so get it out of the way
         clickNotificationPermissionRequestAllowButtonIfAvailable()
@@ -699,6 +701,18 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
             block()
         }
         return future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+    }
+
+    /**
+     * This method waits for permission controller activity to be in a valid state, the timeout
+     * is 5 seconds.
+     */
+    fun waitForPermissionRequestActivity() {
+        val requestPermissionIntent = Intent(PackageManager.ACTION_REQUEST_PERMISSIONS)
+        val componentName =
+            requestPermissionIntent.resolveActivity(context.packageManager)
+                ?: throw RuntimeException("Permission request is not handled by any activity.")
+        windowManagerStateHelper.waitForValidState(componentName)
     }
 
     protected inline fun requestAppPermissionsAndAssertResult(
