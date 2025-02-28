@@ -27,6 +27,7 @@ import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.annotation.SuppressLint;
 import android.annotation.UserIdInt;
+import android.annotation.WorkerThread;
 import android.app.AppOpsManager;
 import android.app.ecm.EnhancedConfirmationManager;
 import android.app.ecm.IEnhancedConfirmationManager;
@@ -43,6 +44,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Looper;
 import android.os.SystemConfigManager;
 import android.os.UserHandle;
 import android.permission.flags.Flags;
@@ -90,7 +92,7 @@ public class EnhancedConfirmationService extends SystemService {
 
     private Map<String, List<byte[]>> mTrustedPackageCertDigests;
     private Map<String, List<byte[]>> mTrustedInstallerCertDigests;
-    // A map of call ID to call type
+    // A map of call ID to call type. Not thread safe
     private final Map<String, Integer> mOngoingCalls = new ArrayMap<>();
 
     private static final int CALL_TYPE_UNTRUSTED = 0;
@@ -143,6 +145,7 @@ public class EnhancedConfirmationService extends SystemService {
     }
 
     void addOngoingCall(Call call) {
+        assertNotMainThread();
         if (!Flags.unknownCallPackageInstallBlockingEnabled()) {
             return;
         }
@@ -152,7 +155,9 @@ public class EnhancedConfirmationService extends SystemService {
         mOngoingCalls.put(call.getDetails().getId(), getCallType(call));
     }
 
+    @WorkerThread
     void removeOngoingCall(String callId) {
+        assertNotMainThread();
         if (!Flags.unknownCallPackageInstallBlockingEnabled()) {
             return;
         }
@@ -162,11 +167,15 @@ public class EnhancedConfirmationService extends SystemService {
         }
     }
 
+    @WorkerThread
     void clearOngoingCalls() {
+        assertNotMainThread();
         mOngoingCalls.clear();
     }
 
+    @WorkerThread
     private @CallType int getCallType(Call call) {
+        assertNotMainThread();
         String number = getPhoneNumber(call);
         try {
             if (number != null && mTelephonyManager.isEmergencyNumber(number)) {
@@ -196,7 +205,9 @@ public class EnhancedConfirmationService extends SystemService {
         return handle.getSchemeSpecificPart();
     }
 
+    @WorkerThread
     private boolean hasContactWithPhoneNumber(String phoneNumber) {
+        assertNotMainThread();
         if (phoneNumber == null) {
             return false;
         }
@@ -211,7 +222,9 @@ public class EnhancedConfirmationService extends SystemService {
         }
     }
 
+    @WorkerThread
     private boolean hasContactWithDisplayName(String displayName) {
+        assertNotMainThread();
         if (displayName == null) {
             return false;
         }
@@ -231,6 +244,12 @@ public class EnhancedConfirmationService extends SystemService {
             }
         }
         return false;
+    }
+
+    private void assertNotMainThread() throws IllegalStateException {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            throw new IllegalStateException("Ecm WorkerThread method called on main thread");
+        }
     }
 
     private class Stub extends IEnhancedConfirmationManager.Stub {
