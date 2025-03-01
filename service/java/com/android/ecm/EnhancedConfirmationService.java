@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -92,8 +93,9 @@ public class EnhancedConfirmationService extends SystemService {
 
     private Map<String, List<byte[]>> mTrustedPackageCertDigests;
     private Map<String, List<byte[]>> mTrustedInstallerCertDigests;
-    // A map of call ID to call type. Not thread safe
-    private final Map<String, Integer> mOngoingCalls = new ArrayMap<>();
+    // A map of call ID to call type. Thread safe because it is queried on the main thread, but
+    // added/removed on a background thread.
+    private final Map<String, Integer> mOngoingCalls = new ConcurrentHashMap<>();
 
     private static final int CALL_TYPE_UNTRUSTED = 0;
     private static final int CALL_TYPE_TRUSTED = 1;
