@@ -153,6 +153,7 @@ android_library {
         "safety-label",
         "role-controller",
         "android.permission.flags-aconfig-java-export",
+        "android.xr.flags-aconfig-java-export",
         "com.android.permission.flags-aconfig-java-export",
         "androidx.compose.foundation_foundation",
         "androidx.compose.runtime_runtime",
