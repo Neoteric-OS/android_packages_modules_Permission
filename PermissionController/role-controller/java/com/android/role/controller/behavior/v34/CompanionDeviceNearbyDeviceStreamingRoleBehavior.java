@@ -21,9 +21,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.modules.utils.build.SdkLevel;
 import com.android.role.controller.model.Role;
 import com.android.role.controller.model.RoleBehavior;
-import com.android.role.controller.util.RoleFlags;
 
 /**
  * Class for behavior of the "Nearby Device Streaming" Companion device profile role.
@@ -33,6 +33,6 @@ public class CompanionDeviceNearbyDeviceStreamingRoleBehavior implements RoleBeh
     @Override
     @Nullable
     public Boolean shouldAllowBypassingQualification(@NonNull Role role, @NonNull Context context) {
-        return !RoleFlags.isAtLeastB();
+        return !SdkLevel.isAtLeastB();
     }
 }

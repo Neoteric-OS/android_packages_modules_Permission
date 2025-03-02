@@ -72,16 +72,20 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
     }
 
     @Test
+    @Ignore("b/396478581")
+    // Ignore this test until the cause of flakiness is identified.
     fun testPrecisePermissionIsGranted() {
         installPackage(APP_APK_PATH_31)
 
         assertAppHasPermission(ACCESS_FINE_LOCATION, false)
         assertAppHasPermission(ACCESS_COARSE_LOCATION, false)
         assertAppHasPermission(ACCESS_BACKGROUND_LOCATION, false)
+        val waitForWindowTransition = SdkLevel.isAtLeastB();
 
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to true,
-            ACCESS_COARSE_LOCATION to true
+            ACCESS_COARSE_LOCATION to true,
+            waitForWindowTransition = waitForWindowTransition
         ) {
             clickPreciseLocationRadioButton()
             clickCoarseLocationRadioButton()

@@ -440,6 +440,8 @@
     <string name="default_apps_manage_domain_urls" msgid="6775566451561036069">"Pagbubukas ng mga link"</string>
     <string name="default_apps_for_work" msgid="4970308943596201811">"Default para sa trabaho"</string>
     <string name="default_apps_for_private_profile" msgid="2022024112144880785">"Default para sa pribadong space"</string>
+    <string name="default_app_recommended" msgid="5669584821778942909">"Na-optimize para sa device"</string>
+    <string name="default_app_others" msgid="7793029848126079876">"Iba pa"</string>
     <string name="default_app_none" msgid="9084592086808194457">"Wala"</string>
     <string name="default_app_system_default" msgid="6218386768175513760">"(Default ng system)"</string>
     <string name="default_app_no_apps" msgid="115720991680586885">"Walang app"</string>
@@ -676,16 +678,11 @@
     <string name="allow_restricted_settings" msgid="8073000189478396881">"Payagan ang mga pinaghihigpitang setting"</string>
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"Pinaghihigpitang setting"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"Para sa iyong seguridad, hindi available ang setting na ito sa ngayon."</string>
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_title (5054064107559019689) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_desc (5049619986796367451) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_install_desc_prefix (7153600694011441796) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_a11y_desc_prefix (1086282331085551407) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_generic_desc_prefix (8141411486179553156) -->
-    <skip />
+    <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"Hindi magawa ang aksyon habang tumatawag"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="5049619986796367451">"<xliff:g id="SETTING_DESCRIPTION">%1$s</xliff:g>\n\n Naka-block ang setting na ito para protektahan ang iyong device at data"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_install_desc_prefix" msgid="7153600694011441796">"Posibleng subukan ng mga scammer na mag-install ng mga nakakapinsalang app sa pamamagitan ng paghiling sa iyong mag-install ng mga hindi kilalang app mula sa isang bagong source."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_a11y_desc_prefix" msgid="1086282331085551407">"Posibleng subukan ng mga scammer na kontrolin ang iyong device sa pamamagitan ng paghiling sa iyong payagan ang access sa accessibility para sa isang app."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_generic_desc_prefix" msgid="8141411486179553156">"Posibleng subukan ng mga scammer na ilagay sa panganib ang iyong device gamit ang setting na ito."</string>
     <string name="enhanced_confirmation_dialog_title_permission" msgid="2149144789394238266">"Tinanggihan ang access ng appp sa <xliff:g id="PERMISSION_NAME">%1$s</xliff:g>"</string>
     <string name="enhanced_confirmation_dialog_desc_permission" msgid="3150778951946468945">"Humiling ang app ng access sa pahintulot sa sensitibong impormasyon na posibleng maglagay ng iyong personal at pinansyal na impormasyon sa panganib.<xliff:g id="ID_1">&lt;br&gt;&lt;br&gt;</xliff:g>Posibleng hindi gumana nang maayos ang app kung wala ang pinaghihigpitang pahintulot na ito. &lt;a href=<xliff:g id="LEARN_MORE_LINK">%1$s</xliff:g>&gt;Alamin kung paano payagan ang pag-access&lt;/a&gt;"</string>
     <string name="enhanced_confirmation_dialog_title_role" msgid="1737023798483772780">"Tinanggihan ang access ng app na maging default na <xliff:g id="ROLE_NAME">%1$s</xliff:g>"</string>

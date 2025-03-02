@@ -202,10 +202,8 @@
     <string name="app_permission_header_with_device_name" msgid="7193042925656173271">"Aplikacja ma przyznane uprawnienie <xliff:g id="PERM">%1$s</xliff:g> na tym urządzeniu: <xliff:g id="DEVICE_NAME">%2$s</xliff:g>"</string>
     <string name="app_permission_footer_app_permissions_link" msgid="4926890342636587393">"Zobacz wszystkie uprawnienia aplikacji <xliff:g id="APP">%1$s</xliff:g>"</string>
     <string name="app_permission_footer_permission_apps_link" msgid="3941988129992794327">"Wyświetl wszystkie aplikacje z tym uprawnieniem"</string>
-    <!-- no translation found for app_permission_info_button (8973692370208562556) -->
-    <skip />
-    <!-- no translation found for app_permission_settings_button (4582916817451973752) -->
-    <skip />
+    <string name="app_permission_info_button" msgid="8973692370208562556">"Informacje"</string>
+    <string name="app_permission_settings_button" msgid="4582916817451973752">"Ustawienia"</string>
     <string name="assistant_mic_label" msgid="1011432357152323896">"Pokaż użycie mikrofonu w Asystencie"</string>
     <string name="unused_apps_category_title" msgid="2988455616845243901">"Ustawienia nieużywanych aplikacji"</string>
     <string name="auto_revoke_label" msgid="5068393642936571656">"Usuń uprawnienia, jeśli aplikacja jest nieużywana"</string>
@@ -442,6 +440,8 @@
     <string name="default_apps_manage_domain_urls" msgid="6775566451561036069">"Otwieranie linków"</string>
     <string name="default_apps_for_work" msgid="4970308943596201811">"Domyślne do pracy"</string>
     <string name="default_apps_for_private_profile" msgid="2022024112144880785">"Domyślne dla przestrzeni prywatnej"</string>
+    <string name="default_app_recommended" msgid="5669584821778942909">"Zoptymalizowane dla danego urządzenia"</string>
+    <string name="default_app_others" msgid="7793029848126079876">"Inne"</string>
     <string name="default_app_none" msgid="9084592086808194457">"Brak"</string>
     <string name="default_app_system_default" msgid="6218386768175513760">"(Domyślna aplikacja systemowa)"</string>
     <string name="default_app_no_apps" msgid="115720991680586885">"Brak aplikacji"</string>
@@ -678,16 +678,11 @@
     <string name="allow_restricted_settings" msgid="8073000189478396881">"Zezwól na ustawienia z ograniczonym dostępem"</string>
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"Ustawienie z ograniczonym dostępem"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"Ze względów bezpieczeństwa to ustawienie jest obecnie niedostępne."</string>
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_title (5054064107559019689) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_desc (5049619986796367451) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_install_desc_prefix (7153600694011441796) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_a11y_desc_prefix (1086282331085551407) -->
-    <skip />
-    <!-- no translation found for enhanced_confirmation_phone_state_dialog_generic_desc_prefix (8141411486179553156) -->
-    <skip />
+    <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"Nie można wykonać działania podczas połączenia"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="5049619986796367451">"<xliff:g id="SETTING_DESCRIPTION">%1$s</xliff:g>\n\n To ustawienie jest zablokowane, aby chronić Twoje urządzenie i dane"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_install_desc_prefix" msgid="7153600694011441796">"Oszuści mogą próbować zainstalować szkodliwe aplikacje, prosząc o instalację nieznanych programów z nowego źródła."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_a11y_desc_prefix" msgid="1086282331085551407">"Oszuści mogą próbować przejąć kontrolę nad Twoim urządzeniem, prosząc o przyznanie uprawnień do ułatwień dostępu aplikacji."</string>
+    <string name="enhanced_confirmation_phone_state_dialog_generic_desc_prefix" msgid="8141411486179553156">"Oszuści mogą próbować wyrządzić szkody na Twoim urządzeniu, wykorzystując to ustawienie."</string>
     <string name="enhanced_confirmation_dialog_title_permission" msgid="2149144789394238266">"Aplikacja nie otrzymała dostępu do uprawnień <xliff:g id="PERMISSION_NAME">%1$s</xliff:g>"</string>
     <string name="enhanced_confirmation_dialog_desc_permission" msgid="3150778951946468945">"Aplikacja wymaga dostępu do uprawnień newralgicznych, co może zagrażać Twoim danym osobowym i informacjom finansowym.<xliff:g id="ID_1">&lt;br&gt;&lt;br&gt;</xliff:g>Możliwe, że bez tego uprawnienia z ograniczeniami aplikacja nie będzie działać poprawnie. &lt;a href=<xliff:g id="LEARN_MORE_LINK">%1$s</xliff:g>&gt;Jak zezwolić na dostęp&lt;/a&gt;"</string>
     <string name="enhanced_confirmation_dialog_title_role" msgid="1737023798483772780">"Aplikacja nie otrzymała dostępu jako domyślna <xliff:g id="ROLE_NAME">%1$s</xliff:g>"</string>

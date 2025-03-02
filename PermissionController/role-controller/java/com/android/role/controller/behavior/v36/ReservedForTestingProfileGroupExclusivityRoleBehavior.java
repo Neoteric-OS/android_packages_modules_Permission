@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.android.role.controller.behavior;
+package com.android.role.controller.behavior.v36;
 
 import android.app.role.RoleManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.UserHandle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.role.controller.model.Role;
 import com.android.role.controller.model.RoleBehavior;
@@ -33,7 +35,7 @@ import com.android.role.controller.util.UserUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO(b/383538899): make minSdk36
+@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 public class ReservedForTestingProfileGroupExclusivityRoleBehavior implements RoleBehavior {
     @Nullable
     @Override
