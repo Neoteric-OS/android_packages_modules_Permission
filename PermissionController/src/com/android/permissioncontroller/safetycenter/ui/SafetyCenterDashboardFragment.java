@@ -35,7 +35,6 @@ import android.safetycenter.SafetyCenterData;
 import android.safetycenter.SafetyCenterEntry;
 import android.safetycenter.SafetyCenterEntryGroup;
 import android.safetycenter.SafetyCenterEntryOrGroup;
-import android.safetycenter.SafetyCenterIssue;
 import android.safetycenter.SafetyCenterStaticEntry;
 import android.safetycenter.SafetyCenterStaticEntryGroup;
 import android.util.Log;
@@ -52,6 +51,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.modules.utils.build.SdkLevel;
 import com.android.permissioncontroller.R;
+import com.android.permissioncontroller.safetycenter.ui.expressive.SafetyBannerMessagePreference;
+import com.android.permissioncontroller.safetycenter.ui.model.IssueUiData;
 import com.android.permissioncontroller.safetycenter.ui.model.SafetyCenterUiData;
 import com.android.permissioncontroller.safetycenter.ui.model.StatusUiData;
 import com.android.safetycenter.internaldata.SafetyCenterBundles;
@@ -61,7 +62,6 @@ import com.android.settingslib.widget.SettingsThemeHelper;
 import kotlin.Unit;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /** Dashboard fragment for the Safety Center. */
@@ -214,7 +214,7 @@ public final class SafetyCenterDashboardFragment extends SafetyCenterFragment {
 
         // TODO(b/208212820): Only update entries that have changed since last
         // update, rather than deleting and re-adding all.
-        updateIssues(context, data.getIssues(), uiData.getResolvedIssues());
+        updateIssues(context, uiData);
 
         if (!mIsQuickSettingsFragment) {
             updateSafetyEntries(context, data.getEntriesOrGroups());
@@ -222,19 +222,29 @@ public final class SafetyCenterDashboardFragment extends SafetyCenterFragment {
         }
     }
 
-    private void updateIssues(
-            Context context, List<SafetyCenterIssue> issues, Map<String, String> resolvedIssues) {
+    private void updateIssues(Context context, SafetyCenterUiData uiData) {
         mIssuesGroup.removeAll();
-        getCollapsableIssuesCardHelper()
-                .addIssues(
-                        context,
-                        getSafetyCenterViewModel(),
-                        getChildFragmentManager(),
-                        mIssuesGroup,
-                        issues,
-                        emptyList(),
-                        resolvedIssues,
-                        getActivity().getTaskId());
+        if (SettingsThemeHelper.isExpressiveTheme(context)) {
+            for (IssueUiData issueUiData : uiData.getIssueUiDatas()) {
+                mIssuesGroup.addPreference(
+                        new SafetyBannerMessagePreference(
+                                context,
+                                issueUiData,
+                                getSafetyCenterViewModel(),
+                                getChildFragmentManager()));
+            }
+        } else {
+            getCollapsableIssuesCardHelper()
+                    .addIssues(
+                            context,
+                            getSafetyCenterViewModel(),
+                            getChildFragmentManager(),
+                            mIssuesGroup,
+                            uiData.getSafetyCenterData().getIssues(),
+                            emptyList(),
+                            uiData.getResolvedIssues(),
+                            requireActivity().getTaskId());
+        }
     }
 
     // TODO(b/208212820): Add groups and move to separate controller
