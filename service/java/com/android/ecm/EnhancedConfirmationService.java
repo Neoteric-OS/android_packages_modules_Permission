@@ -150,8 +150,6 @@ public class EnhancedConfirmationService extends SystemService {
 
     private Map<String, List<byte[]>> mTrustedPackageCertDigests;
     private Map<String, List<byte[]>> mTrustedInstallerCertDigests;
-
-    private static final long UNTRUSTED_CALL_STORAGE_TIME_MS = TimeUnit.HOURS.toMillis(1);
     private static final int CALL_TYPE_UNTRUSTED = 0;
     private static final int CALL_TYPE_TRUSTED = 1;
     private static final int CALL_TYPE_EMERGENCY = 1 << 1;
@@ -559,9 +557,18 @@ public class EnhancedConfirmationService extends SystemService {
     }
 
     private static class CallTracker {
+        // The time we will remember an untrusted call
+        private static final long UNTRUSTED_CALL_STORAGE_TIME_MS = TimeUnit.HOURS.toMillis(1);
+        // The minimum time that must pass between individual logs of the same call, uid, trusted
+        // status, and allowed setting.
+        private static final long MAX_LOGGING_FREQUENCY_MS = TimeUnit.SECONDS.toMillis(30);
         // A map of call ID to ongoing or recently removed calls. Concurrent because
         // additions/removals happen on background threads, but queries on main thread.
         private final Map<String, TrackedCall> mCalls = new ConcurrentHashMap<>();
+
+        // A cache of hashed callers, uids, trusted status, and allowed status. Ensures that we
+        // do not log the same interaction too many times
+        private final Map<Integer, Long> mLogCache = new ConcurrentHashMap<>();
 
         private class TrackedCall {
             public @CallType Integer callType;
@@ -606,6 +613,7 @@ public class EnhancedConfirmationService extends SystemService {
                 return;
             }
             pruneOldFinishedCalls();
+            pruneOldLogs();
             mCalls.put(call.getDetails().getId(), new TrackedCall(call));
         }
 
@@ -638,6 +646,7 @@ public class EnhancedConfirmationService extends SystemService {
             }
 
             pruneOldFinishedCalls();
+            pruneOldLogs();
         }
 
         public void endAllCalls() {
@@ -772,6 +781,15 @@ public class EnhancedConfirmationService extends SystemService {
             mCalls.entrySet().removeIf(
                     e -> e.getValue().isFinished() && e.getValue().endTime < cutoff);
         }
+
+        void pruneOldLogs() {
+            if (!Flags.unknownCallSettingBlockedLoggingEnabled()) {
+                return;
+            }
+            long cutoff = SystemClock.elapsedRealtime() - MAX_LOGGING_FREQUENCY_MS;
+            mLogCache.entrySet().removeIf(e -> e.getValue() < cutoff);
+        }
+
         private void logInCallRestrictionEvent(@NonNull String packageName, int userId,
                 @NonNull String settingIdentifier, boolean allowed, @Nullable TrackedCall call) {
             if (!Flags.unknownCallSettingBlockedLoggingEnabled()) {
@@ -811,6 +829,15 @@ public class EnhancedConfirmationService extends SystemService {
                     callBackAfterBlock = true;
                 }
             }
+
+            String caller = callInProgress ? call.caller : null;
+            int logHash = Objects.hash(caller, uid, settingIdentifier, allowed, trusted);
+            Long lastLogTime = mLogCache.get(logHash);
+            long cutoff = SystemClock.elapsedRealtime() - MAX_LOGGING_FREQUENCY_MS;
+            if (lastLogTime != null && lastLogTime > cutoff) {
+                return;
+            }
+            mLogCache.put(logHash, SystemClock.elapsedRealtime());
 
             PermissionControllerStatsLog.write(ECM_RESTRICTION_QUERY_IN_CALL_REPORTED, uid,
                     settingIdentifier, allowed, callInProgress, incoming, trusted,
