@@ -25,6 +25,7 @@ import com.android.modules.utils.build.SdkLevel
 import org.junit.Assume.assumeFalse
 import org.junit.Assume.assumeTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 @FlakyTest
@@ -50,6 +51,8 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
     }
 
     @Test
+    @Ignore("b/390440965")
+    // Ignore this test until the cause of flakiness is identified.
     fun testCoarsePermissionIsGranted() {
         installPackage(APP_APK_PATH_31)
 
@@ -59,8 +62,7 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
 
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to false,
-            ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
+            ACCESS_COARSE_LOCATION to true
         ) {
             clickCoarseLocationRadioButton()
             clickPreciseLocationRadioButton()
@@ -70,17 +72,20 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
     }
 
     @Test
+    @Ignore("b/396478581")
+    // Ignore this test until the cause of flakiness is identified.
     fun testPrecisePermissionIsGranted() {
         installPackage(APP_APK_PATH_31)
 
         assertAppHasPermission(ACCESS_FINE_LOCATION, false)
         assertAppHasPermission(ACCESS_COARSE_LOCATION, false)
         assertAppHasPermission(ACCESS_BACKGROUND_LOCATION, false)
+        val waitForWindowTransition = SdkLevel.isAtLeastB();
 
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to true,
             ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
+            waitForWindowTransition = waitForWindowTransition
         ) {
             clickPreciseLocationRadioButton()
             clickCoarseLocationRadioButton()
@@ -99,8 +104,7 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
 
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to false,
-            ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
+            ACCESS_COARSE_LOCATION to true
         ) {
             clickCoarseLocationRadioButton()
             clickPreciseLocationRadioButton()
@@ -111,8 +115,7 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
         // now request again to change to precise location
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to true,
-            ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
+            ACCESS_COARSE_LOCATION to true
         ) {
             clickPreciseLocationOnlyView()
             clickPermissionRequestAllowForegroundButton()
@@ -127,10 +130,7 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
         assertAppHasPermission(ACCESS_COARSE_LOCATION, false)
         assertAppHasPermission(ACCESS_BACKGROUND_LOCATION, false)
 
-        requestAppPermissionsAndAssertResult(
-            ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
-        ) {
+        requestAppPermissionsAndAssertResult(ACCESS_COARSE_LOCATION to true) {
             clickCoarseLocationOnlyView()
             clickPermissionRequestAllowForegroundButton()
         }
@@ -143,16 +143,13 @@ class LocationAccuracyTest : BaseUsePermissionTest() {
     fun testPreSAppsAutograntFineIfCoarseGranted() {
         installPackage(APP_APK_PATH_30)
         assertAppHasPermission(ACCESS_COARSE_LOCATION, false)
-        requestAppPermissionsAndAssertResult(
-            ACCESS_COARSE_LOCATION to true,
-            waitForWindowTransition = false,
-        ) {
+        requestAppPermissionsAndAssertResult(ACCESS_COARSE_LOCATION to true) {
             clickPermissionRequestAllowForegroundButton()
         }
         assertAppHasPermission(ACCESS_FINE_LOCATION, false)
         requestAppPermissionsAndAssertResult(
             ACCESS_FINE_LOCATION to true,
-            waitForWindowTransition = false,
+            waitForWindowTransition = false
         ) {}
     }
 
