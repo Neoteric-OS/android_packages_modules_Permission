@@ -63,6 +63,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import java.util.concurrent.TimeoutException
 
 abstract class BaseUsePermissionTest : BasePermissionTest() {
     companion object {
@@ -698,7 +699,14 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
         } else {
             block()
         }
-        return future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+        try {
+            return future.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+        } catch (e: TimeoutException) {
+            val uiDump = StringBuilder()
+            UiDumpUtils.dumpNodes(uiDump)
+            Log.e(LOG_TAG, "Timed out waiting for activity result, UI dump: $uiDump")
+            throw e
+        }
     }
 
     protected inline fun requestAppPermissionsAndAssertResult(
