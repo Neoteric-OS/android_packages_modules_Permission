@@ -357,7 +357,7 @@
     <string name="accessibility_service_dialog_bottom_text_multiple" msgid="7009848932395519852">"Tieto aplikácie si môžu zobraziť vašu obrazovku, akcie a vstupy, vykonávať akcie a ovládať obrazovku."</string>
     <string name="role_assistant_label" msgid="4727586018198208128">"Predvolený digitálny asistent"</string>
     <string name="role_assistant_short_label" msgid="3369003713187703399">"Digitálny asistent"</string>
-    <string name="role_assistant_description" msgid="6622458130459922952">"Asistenčné aplikácie vám pomáhajú na základe informácií zo zobrazenej obrazovky. Niektoré aplikácie podporujú spúšťač aj služby hlasového vstupu, aby vám poskytli integrovanú pomoc."</string>
+    <string name="role_assistant_description" msgid="6622458130459922952">"Asistenčné aplikácie pomáhajú na základe informácií zo zobrazenej obrazovky. Niektoré aplikácie podporujú spúšťače aj hlasový vstup, a ponúkajú tak integrovanú asistenciu."</string>
     <string name="role_browser_label" msgid="2877796144554070207">"Predvolený prehliadač"</string>
     <string name="role_browser_short_label" msgid="6745009127123292296">"Prehliadač"</string>
     <string name="role_browser_description" msgid="3465253637499842671">"Aplikácie, ktoré umožňujú prehliadať internet a otvárať webové odkazy"</string>
