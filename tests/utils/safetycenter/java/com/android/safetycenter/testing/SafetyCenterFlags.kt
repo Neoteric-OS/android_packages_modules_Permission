@@ -35,6 +35,7 @@ import android.safetycenter.SafetyCenterManager.REFRESH_REASON_PERIODIC
 import android.safetycenter.SafetyCenterManager.REFRESH_REASON_RESCAN_BUTTON_CLICK
 import android.safetycenter.SafetyCenterManager.REFRESH_REASON_SAFETY_CENTER_ENABLED
 import android.safetycenter.SafetySourceData
+import android.util.Log
 import com.android.modules.utils.build.SdkLevel
 import com.android.safetycenter.testing.Coroutines.TEST_TIMEOUT
 import com.android.safetycenter.testing.Coroutines.TIMEOUT_LONG
@@ -167,6 +168,8 @@ object SafetyCenterFlags {
             defaultValue = Duration.ofMillis(400),
             DurationParser(),
             namespace = NAMESPACE_SETTINGS_UI,
+            // This flag is only writeable on BP2A builds built after 3 March 2025
+            writeMustSucceed = false,
         )
 
     /**
@@ -344,6 +347,16 @@ object SafetyCenterFlags {
             periodicBackgroundRefreshIntervalFlag,
         )
 
+    /** All the Safety Center flags that should be written to during setup and reset. */
+    private val SETUP_FLAGS =
+        FLAGS.filter { it.name != isEnabledFlag.name }
+            .filter {
+                // This flag is only writeable on BP2A builds built after 3 March 2025
+                // Don't set it up on versions we know will trigger a write error.
+                it.name != bannerMessagePrefHideResolvedContentTransitionDelayFlag.name ||
+                    SdkLevel.isAtLeastB()
+            }
+
     /** A property that allows getting and setting the [isEnabledFlag]. */
     var isEnabled: Boolean by isEnabledFlag
 
@@ -458,8 +471,7 @@ object SafetyCenterFlags {
      */
     fun setup() {
         snapshot = lazySnapshot
-        FLAGS.filter { it.name != isEnabledFlag.name }
-            .forEach { it.writeToDeviceConfig(it.defaultStringValue) }
+        SETUP_FLAGS.forEach { it.writeToDeviceConfig(it.defaultStringValue) }
     }
 
     /**
@@ -473,12 +485,11 @@ object SafetyCenterFlags {
         // Write flags one by one instead of using `DeviceConfig#setProperties` as the latter does
         // not work when DeviceConfig sync is disabled and does not take uninitialized values into
         // account.
-        FLAGS.filter { it.name != isEnabledFlag.name }
-            .forEach {
-                val key = it.name
-                val value = snapshot[it.namespace]?.getString(key, /* defaultValue */ null)
-                it.writeToDeviceConfig(value)
-            }
+        SETUP_FLAGS.forEach {
+            val key = it.name
+            val value = snapshot[it.namespace]?.getString(key, /* defaultValue */ null)
+            it.writeToDeviceConfig(value)
+        }
     }
 
     /** Sets the [refreshTimeouts] for all refresh reasons to the given [refreshTimeout]. */
@@ -566,6 +577,7 @@ object SafetyCenterFlags {
         val defaultValue: T,
         private val parser: Parser<T>,
         val namespace: String = NAMESPACE_PRIVACY,
+        val writeMustSucceed: Boolean = true,
     ) {
         val defaultStringValue = parser.toString(defaultValue)
 
@@ -584,9 +596,24 @@ object SafetyCenterFlags {
         fun writeToDeviceConfig(stringValue: String?) {
             callWithShellPermissionIdentity(WRITE_DEVICE_CONFIG, WRITE_ALLOWLISTED_DEVICE_CONFIG) {
                 val valueWasSet =
-                    DeviceConfig.setProperty(namespace, name, stringValue, /* makeDefault */ false)
-                require(valueWasSet) { "Could not set $name to: $stringValue" }
+                    try {
+                        DeviceConfig.setProperty(
+                            namespace,
+                            name,
+                            stringValue,
+                            /* makeDefault */ false,
+                        )
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Error while setting $name to: $stringValue", e)
+                        false
+                    }
+
+                if (writeMustSucceed) {
+                    require(valueWasSet) { "Could not set $name to: $stringValue" }
+                }
             }
         }
     }
+
+    private const val TAG = "SafetyCenterFlags"
 }
