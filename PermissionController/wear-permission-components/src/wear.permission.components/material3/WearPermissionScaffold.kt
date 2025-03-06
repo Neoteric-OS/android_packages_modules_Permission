@@ -59,7 +59,6 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
-import androidx.wear.compose.material3.lazy.scrollTransform
 import com.android.permissioncontroller.wear.permission.components.AnnotatedText
 import com.android.permissioncontroller.wear.permission.components.ListScopeWrapper
 import com.android.permissioncontroller.wear.permission.components.material2.Wear2Scaffold
@@ -73,7 +72,7 @@ private class TransformingScopeConverter(private val scope: TransformingLazyColu
     ListScopeWrapper {
     override fun item(key: Any?, contentType: Any?, content: @Composable () -> Unit) {
         // TODO:https://buganizer.corp.google.com/issues/389093588.
-        scope.item { Box(modifier = Modifier.scrollTransform(this)) { content() } }
+        scope.item { content() }
     }
 
     override fun items(
