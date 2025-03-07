@@ -833,11 +833,12 @@ public class EnhancedConfirmationService extends SystemService {
             String caller = callInProgress ? call.caller : null;
             int logHash = Objects.hash(caller, uid, settingIdentifier, allowed, trusted);
             Long lastLogTime = mLogCache.get(logHash);
-            long cutoff = SystemClock.elapsedRealtime() - MAX_LOGGING_FREQUENCY_MS;
+            long now = SystemClock.elapsedRealtime();
+            long cutoff = now - MAX_LOGGING_FREQUENCY_MS;
             if (lastLogTime != null && lastLogTime > cutoff) {
                 return;
             }
-            mLogCache.put(logHash, SystemClock.elapsedRealtime());
+            mLogCache.put(logHash, now);
 
             PermissionControllerStatsLog.write(ECM_RESTRICTION_QUERY_IN_CALL_REPORTED, uid,
                     settingIdentifier, allowed, callInProgress, incoming, trusted,
