@@ -679,7 +679,7 @@
     <string name="enhanced_confirmation_dialog_title" msgid="7562437438040966351">"Piiratud seade"</string>
     <string name="enhanced_confirmation_dialog_desc" msgid="5921240234843839219">"Teie turvalisuse huvides pole see seade praegu saadaval."</string>
     <string name="enhanced_confirmation_phone_state_dialog_title" msgid="5054064107559019689">"Seda toimingut ei saa kõne ajal teha"</string>
-    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="3803423079498712549">"See seade on teie seadme ja andmete kaitsmiseks blokeeritud.<xliff:g id="SCAM_USE_SETTING_DESCRIPTION">%1$s</xliff:g>"</string>
+    <string name="enhanced_confirmation_phone_state_dialog_desc" msgid="3803423079498712549">"See säte on teie seadme ja andmete kaitsmiseks blokeeritud.<xliff:g id="SCAM_USE_SETTING_DESCRIPTION">%1$s</xliff:g>"</string>
     <string name="enhanced_confirmation_phone_state_dialog_install_desc" msgid="6400007048943674066">"<xliff:g id="EMPTY_LINE">
 
 </xliff:g>Petised võivad proovida installida kahjulikke rakendusi, paludes teil installida uuest allikast tundmatuid rakendusi."</string>
