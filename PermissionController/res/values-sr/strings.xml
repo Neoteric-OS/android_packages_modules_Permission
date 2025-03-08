@@ -355,7 +355,7 @@
     <string name="accessibility_service_dialog_title_multiple" msgid="5527879210683548175">"Апликације приступачности (<xliff:g id="NUM_SERVICES">%s</xliff:g>) имају потпун приступ уређају"</string>
     <string name="accessibility_service_dialog_bottom_text_single" msgid="1128666197822205958">"<xliff:g id="SERVICE_NAME">%s</xliff:g> може да прегледа садржај екрана, радње и уносе, обавља радње и управља екраном."</string>
     <string name="accessibility_service_dialog_bottom_text_multiple" msgid="7009848932395519852">"Ове апликације могу да прегледају садржај екрана, радње и уносе, као и да обављају радње и управљају екраном."</string>
-    <string name="role_assistant_label" msgid="4727586018198208128">"Подразумев. дигитални помоћник"</string>
+    <string name="role_assistant_label" msgid="4727586018198208128">"Подразумевани дигитални помоћник"</string>
     <string name="role_assistant_short_label" msgid="3369003713187703399">"Апликација дигиталног помоћника"</string>
     <string name="role_assistant_description" msgid="6622458130459922952">"Апликације за помоћ могу да вам помогну на основу информација са екрана који гледате. Неке апликације подржавају услуге покретача и гласовног уноса да би вам пружиле интегрисану помоћ."</string>
     <string name="role_browser_label" msgid="2877796144554070207">"Подразумевана апл. прегледача"</string>
