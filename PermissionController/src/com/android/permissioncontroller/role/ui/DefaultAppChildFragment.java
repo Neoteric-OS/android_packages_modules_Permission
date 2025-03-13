@@ -48,6 +48,7 @@ import com.android.permissioncontroller.role.utils.RoleUiBehaviorUtils;
 import com.android.permissioncontroller.role.utils.SettingsCompat;
 import com.android.role.controller.model.Role;
 import com.android.role.controller.model.Roles;
+import com.android.settingslib.utils.applications.AppUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -302,10 +303,13 @@ public class DefaultAppChildFragment<PF extends PreferenceFragmentCompat
             // the `NONE` item passes a null applicationinfo object. NFC uses a different preference
             // method for adding, and a different onclick method
             if (applicationInfo != null) {
+                UserHandle user = UserHandle.getUserHandleForUid(applicationInfo.uid);
+                roleApplicationPreference.setContentDescription(
+                        AppUtils.getAppContentDescription(
+                                context, applicationInfo.packageName, user.getIdentifier()));
                 Bundle extras = preference.getExtras();
                 extras.putString(PREFERENCE_EXTRA_PACKAGE_NAME, applicationInfo.packageName);
-                extras.putParcelable(PREFERENCE_EXTRA_USER,
-                        UserHandle.getUserHandleForUid(applicationInfo.uid));
+                extras.putParcelable(PREFERENCE_EXTRA_USER, user);
             }
         } else {
             preference = roleApplicationPreference.asTwoStatePreference();
