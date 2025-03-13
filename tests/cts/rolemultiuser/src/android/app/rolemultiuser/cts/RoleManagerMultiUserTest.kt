@@ -71,7 +71,6 @@ import com.android.compatibility.common.util.UiAutomatorUtils2.waitFindObject
 import com.android.compatibility.common.util.UiAutomatorUtils2.waitFindObjectOrNull
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
-import java.util.Objects
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
@@ -317,7 +316,7 @@ class RoleManagerMultiUserTest {
         // initialUser needs to be not the targetUser
         val targetActiveUser = users().current().userHandle()
         val initialUser =
-            if (Objects.equals(targetActiveUser, deviceState.initialUser().userHandle())) {
+            if (targetActiveUser == deviceState.initialUser().userHandle()) {
                 deviceState.workProfile().userHandle()
             } else {
                 deviceState.initialUser().userHandle()
@@ -1648,7 +1647,12 @@ class RoleManagerMultiUserTest {
             getUiDevice().waitForIdle()
 
             // CollapsingToolbar title can't be found by text, so using description instead.
-            assertNull(waitFindObjectOrNull(By.desc(PROFILE_GROUP_EXCLUSIVITY_ROLE_LABEL)))
+            assertNull(
+                waitFindObjectOrNull(
+                    By.desc(PROFILE_GROUP_EXCLUSIVITY_ROLE_LABEL),
+                    IDLE_TIMEOUT_MILLIS,
+                )
+            )
 
             pressBack()
             pressBack()
@@ -1684,7 +1688,12 @@ class RoleManagerMultiUserTest {
             getUiDevice().waitForIdle()
 
             // CollapsingToolbar title can't be found by text, so using description instead.
-            assertNull(waitFindObjectOrNull(By.desc(PROFILE_GROUP_EXCLUSIVITY_ROLE_LABEL)))
+            assertNull(
+                waitFindObjectOrNull(
+                    By.desc(PROFILE_GROUP_EXCLUSIVITY_ROLE_LABEL),
+                    IDLE_TIMEOUT_MILLIS,
+                )
+            )
 
             pressBack()
             pressBack()
@@ -1819,7 +1828,8 @@ class RoleManagerMultiUserTest {
             if (isWatch) {
                 assertNull(
                     waitFindObjectOrNull(
-                        By.clickable(true).checked(true).hasDescendant(By.text(targetAppLabel))
+                        By.clickable(true).checked(true).hasDescendant(By.text(targetAppLabel)),
+                        IDLE_TIMEOUT_MILLIS,
                     )
                 )
             } else {
@@ -1827,7 +1837,8 @@ class RoleManagerMultiUserTest {
                     waitFindObjectOrNull(
                         By.clickable(true)
                             .hasDescendant(By.checkable(true).checked(true))
-                            .hasDescendant(By.text(targetAppLabel))
+                            .hasDescendant(By.text(targetAppLabel)),
+                        IDLE_TIMEOUT_MILLIS,
                     )
                 )
             }
@@ -1898,7 +1909,8 @@ class RoleManagerMultiUserTest {
             if (isWatch) {
                 assertNull(
                     waitFindObjectOrNull(
-                        By.clickable(true).checked(true).hasDescendant(By.text(targetAppLabel))
+                        By.clickable(true).checked(true).hasDescendant(By.text(targetAppLabel)),
+                        IDLE_TIMEOUT_MILLIS,
                     )
                 )
             } else {
@@ -1906,7 +1918,8 @@ class RoleManagerMultiUserTest {
                     waitFindObjectOrNull(
                         By.clickable(true)
                             .hasDescendant(By.checkable(true).checked(true))
-                            .hasDescendant(By.text(targetAppLabel))
+                            .hasDescendant(By.text(targetAppLabel)),
+                        IDLE_TIMEOUT_MILLIS,
                     )
                 )
             }
@@ -2072,10 +2085,8 @@ class RoleManagerMultiUserTest {
         }
     }
 
-    @Throws(java.lang.Exception::class)
     private fun installAppForAllUsers() {
         SystemUtil.runShellCommandOrThrow("pm install -r --user all $APP_APK_PATH")
-        SystemUtil.waitForBroadcasts()
     }
 
     private fun uninstallAppForAllUsers() {
@@ -2102,8 +2113,7 @@ class RoleManagerMultiUserTest {
         }
         val result: Pair<Int, Intent?> = clickButtonAndWaitForResult(allow)
         val expectedResult =
-            if (allow && Objects.equals(targetActiveUser, users().instrumented().userHandle()))
-                Activity.RESULT_OK
+            if (allow && targetActiveUser == users().instrumented().userHandle()) Activity.RESULT_OK
             else Activity.RESULT_CANCELED
 
         assertThat(result.first).isEqualTo(expectedResult)
@@ -2121,7 +2131,8 @@ class RoleManagerMultiUserTest {
     }
 
     private fun roleRequestNotShown() {
-        val requestRoleItem = waitFindObjectOrNull(By.textStartsWith(APP_LABEL))
+        val requestRoleItem =
+            waitFindObjectOrNull(By.textStartsWith(APP_LABEL), IDLE_TIMEOUT_MILLIS)
         assertNull(requestRoleItem)
 
         val result: Pair<Int, Intent?> = waitForResult()
@@ -2151,9 +2162,9 @@ class RoleManagerMultiUserTest {
     ) {
         for (userReference in users().profileGroup(deviceState.initialUser())) {
             val user = userReference.userHandle()
-            if (Objects.equals(user, expectedActiveUser)) {
-                val roleHolders =
-                    roleManager.getRoleHoldersAsUser(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, user)
+            val roleHolders =
+                roleManager.getRoleHoldersAsUser(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, user)
+            if (user == expectedActiveUser) {
                 assertWithMessage(
                         "Expected user ${user.identifier} to have a role holder for " +
                             " $PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME"
@@ -2172,9 +2183,7 @@ class RoleManagerMultiUserTest {
                         "Expected user ${user.identifier} to not have a role holder for" +
                             " $PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME"
                     )
-                    .that(
-                        roleManager.getRoleHoldersAsUser(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME, user)
-                    )
+                    .that(roleHolders)
                     .isEmpty()
             }
         }
@@ -2186,7 +2195,7 @@ class RoleManagerMultiUserTest {
         for (userReference in users().profileGroup(deviceState.initialUser())) {
             val userRoleManager = getRoleManagerForUser(userReference)
             val user = userReference.userHandle()
-            if (Objects.equals(user, expectedActiveUser)) {
+            if (user == expectedActiveUser) {
                 assertWithMessage("Expected default application for user ${user.identifier}")
                     .that(
                         userRoleManager.getDefaultApplication(PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME)
@@ -2254,6 +2263,7 @@ class RoleManagerMultiUserTest {
 
     companion object {
         private const val TIMEOUT_MILLIS: Long = (15 * 1000).toLong()
+        private const val IDLE_TIMEOUT_MILLIS: Long = (2 * 1000).toLong()
         private const val PROFILE_GROUP_EXCLUSIVITY_ROLE_NAME =
             RoleManager.ROLE_RESERVED_FOR_TESTING_PROFILE_GROUP_EXCLUSIVITY
         private const val PROFILE_GROUP_EXCLUSIVITY_ROLE_LABEL =
