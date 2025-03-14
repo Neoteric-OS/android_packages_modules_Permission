@@ -61,6 +61,8 @@
             value="/data/local/tmp/pc-permissionui/PermissionUiUseLegacyBodySensorsPermissionApp.apk" />
         <option name="push-file" key="PermissionUiUseReadHeartRatePermissionApp.apk"
             value="/data/local/tmp/pc-permissionui/PermissionUiUseReadHeartRatePermissionApp.apk" />
+        <option name="push-file" key="PermissionUiUseLegacyBodySensorsPermissionTargetSdk22App.apk"
+            value="/data/local/tmp/pc-permissionui/PermissionUiUseLegacyBodySensorsPermissionTargetSdk22App.apk" />
     </target_preparer>
 
     <!-- Wake the screen, and dismiss keyguard -->

@@ -39,6 +39,7 @@ import static android.content.Intent.EXTRA_REASON;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_INSTALLER_EXEMPT;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_SYSTEM_EXEMPT;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_UPGRADE_EXEMPT;
+import static android.content.pm.PackageManager.FLAG_PERMISSION_REVIEW_REQUIRED;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_REVOKE_WHEN_REQUESTED;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_USER_SENSITIVE_WHEN_DENIED;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_USER_SENSITIVE_WHEN_GRANTED;
@@ -82,6 +83,7 @@ import android.health.connect.HealthConnectManager;
 import android.health.connect.HealthPermissions;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Parcelable;
 import android.os.UserHandle;
 import android.os.UserManager;
@@ -1171,45 +1173,29 @@ public final class Utils {
             }
         }
 
-        // Split permission only applies to READ_HEART_RATE.
-        if (!requestedHealthPermissions.contains(HealthPermissions.READ_HEART_RATE)) {
+        if (!isValidSplitHealthPermissions(requestedHealthPermissions)) {
             return false;
         }
 
-        // If there are other health permissions (other than READ_HEALTH_DATA_IN_BACKGROUND)
-        // don't consider this a pure split-permission request.
-        if (requestedHealthPermissions.size() > 2) {
-            return false;
-        }
-
-        boolean isBackgroundPermissionRequested =
-            requestedHealthPermissions.contains(
-                HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND);
-        // If there are two health permissions declared, make sure the other is
-        // READ_HEALTH_DATA_IN_BACKGROUND.
-        if (requestedHealthPermissions.size() == 2 && !isBackgroundPermissionRequested) {
-            return false;
-        }
-
-        // If READ_HEALTH_DATA_IN_BACKGROUND is requested, check permission flag to see if is from
-        // split permission.
-        if (isBackgroundPermissionRequested) {
-            int readHealthDataInBackgroundFlag =
-                pm.getPermissionFlags(
-                    HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND, packageName, user);
-            if (!isFromSplitPermission(readHealthDataInBackgroundFlag)) {
+        int targetSdk = packageInfo.getTargetSdkVersion();
+        for (String perm : requestedHealthPermissions) {
+            if (!isFromSplitPermission(pm.getPermissionFlags(perm, packageName, user), targetSdk)) {
                 return false;
             }
         }
-
-        // Check READ_HEART_RATE permission flag to see if is from split permission.
-        int readHeartRateFlag =
-            pm.getPermissionFlags(HealthPermissions.READ_HEART_RATE, packageName, user);
-        return isFromSplitPermission(readHeartRateFlag);
+        return true;
     }
 
-    private static boolean isFromSplitPermission(int permissionFlag) {
-        return (permissionFlag & FLAG_PERMISSION_REVOKE_WHEN_REQUESTED) != 0;
+    private static boolean isValidSplitHealthPermissions(List<String> permissions) {
+        return (permissions.size() == 1 && permissions.contains(HealthPermissions.READ_HEART_RATE))
+            || (permissions.size() == 2 && permissions.contains(HealthPermissions.READ_HEART_RATE)
+            && permissions.contains(HealthPermissions.READ_HEALTH_DATA_IN_BACKGROUND));
+    }
+
+    private static boolean isFromSplitPermission(int permissionFlag, int targetSdk) {
+        return (targetSdk >= Build.VERSION_CODES.M)
+            ? (permissionFlag & PackageManager.FLAG_PERMISSION_REVOKE_WHEN_REQUESTED) != 0
+            : (permissionFlag & PackageManager.FLAG_PERMISSION_REVIEW_REQUIRED) != 0;
     }
 
     /**
