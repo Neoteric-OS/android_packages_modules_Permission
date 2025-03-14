@@ -54,6 +54,11 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
     fun uninstallTestApp() {
         uninstallTestApps()
     }
+
+    @SdkSuppress(
+        minSdkVersion = Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+        maxSdkVersion = Build.VERSION_CODES.VANILLA_ICE_CREAM,
+    )
     @Test
     fun usedHealthConnectPermissionsAreListed() {
         installTestAppThatUsesHealthConnectPermission()
@@ -67,6 +72,24 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
         }
     }
 
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
+    @Test
+    fun usedHealthConnectPermissionsAreListed_healthFitnessBrand() {
+        installTestAppThatUsesHealthConnectPermission()
+
+        startManageAppPermissionsActivity()
+
+        eventually {
+            waitFindObject(By.text(HEALTH_FITNESS_LABEL))
+            waitFindObject(By.text(HEALTH_CONNECT_PERMISSION_READ_FLOORS_CLIMBED_LABEL))
+            waitFindObject(By.text(HEALTH_CONNECT_PERMISSION_READ_STEPS_LABEL))
+        }
+    }
+
+    @SdkSuppress(
+        minSdkVersion = Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+        maxSdkVersion = Build.VERSION_CODES.VANILLA_ICE_CREAM,
+    )
     @Test
     fun invalidUngrantedUsedHealthConnectPermissionsAreNotListed() {
         installInvalidTestAppThatUsesHealthConnectPermission()
@@ -78,13 +101,37 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
             assertNull(
                 waitFindObjectOrNull(
                     By.text(HEALTH_CONNECT_PERMISSION_READ_FLOORS_CLIMBED_LABEL),
-                    TIMEOUT_SHORT
+                    TIMEOUT_SHORT,
                 )
             )
             assertNull(
                 waitFindObjectOrNull(
                     By.text(HEALTH_CONNECT_PERMISSION_READ_STEPS_LABEL),
-                    TIMEOUT_SHORT
+                    TIMEOUT_SHORT,
+                )
+            )
+        }
+    }
+
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
+    @Test
+    fun invalidUngrantedUsedHealthConnectPermissionsAreNotListed_healthFitnessBrand() {
+        installInvalidTestAppThatUsesHealthConnectPermission()
+
+        startManageAppPermissionsActivity()
+
+        eventually {
+            assertNull(waitFindObjectOrNull(By.text(HEALTH_FITNESS_LABEL), TIMEOUT_SHORT))
+            assertNull(
+                waitFindObjectOrNull(
+                    By.text(HEALTH_CONNECT_PERMISSION_READ_FLOORS_CLIMBED_LABEL),
+                    TIMEOUT_SHORT,
+                )
+            )
+            assertNull(
+                waitFindObjectOrNull(
+                    By.text(HEALTH_CONNECT_PERMISSION_READ_STEPS_LABEL),
+                    TIMEOUT_SHORT,
                 )
             )
         }
@@ -104,7 +151,7 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
                 }
             },
             Until.newWindow(),
-            TIMEOUT_SHORT
+            TIMEOUT_SHORT,
         )
 
         waitFindObject(By.descContains(MORE_OPTIONS)).click()
@@ -114,6 +161,7 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
     companion object {
         // Health connect label uses a non breaking space
         private const val HEALTH_CONNECT_LABEL = "Health\u00A0Connect"
+        private const val HEALTH_FITNESS_LABEL = "Health, fitness and wellness"
         private const val HEALTH_CONNECT_PERMISSION_READ_FLOORS_CLIMBED =
             "android.permission.health.READ_FLOORS_CLIMBED"
         private const val HEALTH_CONNECT_PERMISSION_READ_FLOORS_CLIMBED_LABEL =
