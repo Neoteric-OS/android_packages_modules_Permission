@@ -55,6 +55,7 @@ import com.android.compatibility.common.util.SystemUtil.eventually
 import com.android.compatibility.common.util.SystemUtil.runWithShellPermissionIdentity
 import com.android.compatibility.common.util.UiDumpUtils
 import com.android.modules.utils.build.SdkLevel
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import java.util.regex.Pattern
@@ -683,19 +684,16 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
         crossinline block: () -> Unit,
     ): Instrumentation.ActivityResult {
         // Request the permissions
-        val future =
-            startActivityForFuture(
-                Intent().apply {
-                    component =
-                        ComponentName(
-                            APP_PACKAGE_NAME,
-                            "$APP_PACKAGE_NAME.RequestPermissionsActivity",
-                        )
-                    putExtra("$APP_PACKAGE_NAME.PERMISSIONS", permissions)
-                    putExtra("$APP_PACKAGE_NAME.ASK_TWICE", askTwice)
-                }
-            )
-        waitForPermissionRequestActivity()
+        lateinit var future: CompletableFuture<Instrumentation.ActivityResult>
+        // The WindowManagerStateHelper#waitForValidState only supports S+
+        if (SdkLevel.isAtLeastS()) {
+            future = startActivityForFuture(*permissions, askTwice = askTwice)
+            waitForPermissionRequestActivity()
+        } else {
+            doAndWaitForWindowTransition {
+                startActivityForFuture(*permissions, askTwice = askTwice)
+            }
+        }
 
         // Notification permission prompt is shown first, so get it out of the way
         clickNotificationPermissionRequestAllowButtonIfAvailable()
@@ -714,6 +712,19 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
             throw e
         }
     }
+
+    fun startActivityForFuture(
+        vararg permissions: String?,
+        askTwice: Boolean,
+    ): CompletableFuture<Instrumentation.ActivityResult> =
+        startActivityForFuture(
+            Intent().apply {
+                component =
+                    ComponentName(APP_PACKAGE_NAME, "$APP_PACKAGE_NAME.RequestPermissionsActivity")
+                putExtra("$APP_PACKAGE_NAME.PERMISSIONS", permissions)
+                putExtra("$APP_PACKAGE_NAME.ASK_TWICE", askTwice)
+            }
+        )
 
     /**
      * This method waits for permission controller activity to be in a valid state, the timeout is 5
