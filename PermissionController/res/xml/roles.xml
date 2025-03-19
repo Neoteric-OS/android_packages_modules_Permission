@@ -1878,19 +1878,20 @@
       -->
     <role
         name="android.app.role.RESERVED_FOR_TESTING_PROFILE_GROUP_EXCLUSIVITY"
-        behavior="ReservedForTestingProfileGroupExclusivityRoleBehavior"
+        behavior="v36.ReservedForTestingProfileGroupExclusivityRoleBehavior"
         description="@string/role_for_testing_profile_group_exclusivity_description"
         exclusive="true"
         exclusivity="profileGroup"
         fallBackToDefaultHolder="true"
         featureFlag="com.android.permission.flags.Flags.crossUserRoleEnabled"
         label="@string/role_for_testing_profile_group_exclusivity_label"
+        minSdkVersion="36"
         requestable="true"
         requestDescription="@string/role_for_testing_profile_group_exclusivity_request_description"
         requestTitle="@string/role_for_testing_profile_group_exclusivity_request_title"
         shortLabel="@string/role_for_testing_profile_group_exclusivity_short_label"
         showNone="true"
-        uiBehavior="ReservedForTestingProfileGroupExclusivityRoleUiBehavior"
+        uiBehavior="v36.ReservedForTestingProfileGroupExclusivityRoleUiBehavior"
         visible="false"/>
 
     <!---

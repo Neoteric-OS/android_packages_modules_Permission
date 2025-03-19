@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.SharedLibraryInfo;
-import android.content.pm.Signature;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.UserHandle;
@@ -501,7 +500,7 @@ public class Role {
         }
         return (Build.VERSION.SDK_INT >= mMinSdkVersion
                 // Workaround to match the value 36 for B in roles.xml before SDK finalization.
-                || (mMinSdkVersion == 36 && RoleFlags.isAtLeastB()))
+                || (mMinSdkVersion == 36 && SdkLevel.isAtLeastB()))
                 && Build.VERSION.SDK_INT <= mMaxSdkVersion;
     }
 
@@ -1107,7 +1106,8 @@ public class Role {
             // all users
             List<UserHandle> profiles =
                     (crossUserRoleUxBugfixEnabled && getExclusivity() == EXCLUSIVITY_PROFILE_GROUP)
-                            ? UserUtils.getUserProfiles(context, true) : List.of(user);
+                            ? UserUtils.getUserProfiles(user, context, true)
+                            : List.of(user);
             final int profilesSize = profiles.size();
             for (int i = 0; i < profilesSize; i++) {
                 UserHandle profile = profiles.get(i);

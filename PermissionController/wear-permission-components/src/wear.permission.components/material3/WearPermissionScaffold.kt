@@ -297,7 +297,7 @@ private fun BoxScope.LazyColumnView(
 
 private fun wearPermissionTimeText(showTime: Boolean): @Composable () -> Unit {
     return if (showTime) {
-        { TimeText { time() } }
+        { TimeText() }
     } else {
         {}
     }
