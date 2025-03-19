@@ -1109,10 +1109,23 @@ public final class Utils {
             return false;
         }
 
-        // Always show Fitness&Wellness chip on Wear.
+        // Only show Fitness&Wellness chip on Wear if the app is requesting system permissions.
         if (Flags.replaceBodySensorPermissionEnabled()
-            && pm.hasSystemFeature(PackageManager.FEATURE_WATCH)) {
-            return true;
+                && pm.hasSystemFeature(PackageManager.FEATURE_WATCH)) {
+            Set<String> requestedPermissions = new HashSet<>(packageInfo.getRequestedPermissions());
+            for (PermissionInfo permission : permissions) {
+                if (!requestedPermissions.contains(permission.name)) {
+                    continue;
+                }
+                String appOpStr = AppOpsManager.permissionToOp(permission.name);
+                if (appOpStr != null
+                        && !appOpStr.equals(AppOpsManager.OPSTR_READ_WRITE_HEALTH_DATA)) {
+                    // Found system health permission. Show the chip.
+                    return true;
+                }
+            }
+            // No valid system permissions are requested.
+            return false;
         }
 
         // Check in permission is already granted as we should not hide it in the UX at that point.
