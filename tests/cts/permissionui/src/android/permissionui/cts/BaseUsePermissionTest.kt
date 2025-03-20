@@ -691,7 +691,7 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
             waitForPermissionRequestActivity()
         } else {
             doAndWaitForWindowTransition {
-                startActivityForFuture(*permissions, askTwice = askTwice)
+                future = startActivityForFuture(*permissions, askTwice = askTwice)
             }
         }
 
