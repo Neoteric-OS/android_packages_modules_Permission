@@ -1938,7 +1938,8 @@
     </role>
 
     <role
-        name="android.app.role.COMPANION_DEVICE_SENSOR_DEVICE_STREAMING"
+        name="android.app.role.COMPANION_DEVICE_VIRTUAL_DEVICE"
+        allowBypassingQualification="true"
         exclusive="false"
         exclusivity="none"
         featureFlag="android.companion.virtualdevice.flags.Flags.enableLimitedVdmRole"
