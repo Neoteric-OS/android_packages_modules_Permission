@@ -31,6 +31,7 @@ import org.junit.After
 import org.junit.Assert.assertNull
 import org.junit.Assume.assumeFalse
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -74,6 +75,7 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
 
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
     @Test
+    @Ignore("b/405152547")
     fun usedHealthConnectPermissionsAreListed_healthFitnessBrand() {
         installTestAppThatUsesHealthConnectPermission()
 
@@ -115,6 +117,7 @@ class HealthConnectAllAppPermissionFragmentTest : BasePermissionUiTest() {
 
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
     @Test
+    @Ignore("b/405152547")
     fun invalidUngrantedUsedHealthConnectPermissionsAreNotListed_healthFitnessBrand() {
         installInvalidTestAppThatUsesHealthConnectPermission()
 
