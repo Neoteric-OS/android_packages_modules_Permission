@@ -39,8 +39,6 @@ import static android.content.Intent.EXTRA_REASON;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_INSTALLER_EXEMPT;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_SYSTEM_EXEMPT;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_RESTRICTION_UPGRADE_EXEMPT;
-import static android.content.pm.PackageManager.FLAG_PERMISSION_REVIEW_REQUIRED;
-import static android.content.pm.PackageManager.FLAG_PERMISSION_REVOKE_WHEN_REQUESTED;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_USER_SENSITIVE_WHEN_DENIED;
 import static android.content.pm.PackageManager.FLAG_PERMISSION_USER_SENSITIVE_WHEN_GRANTED;
 import static android.content.pm.PackageManager.MATCH_SYSTEM_ONLY;
@@ -83,7 +81,6 @@ import android.health.connect.HealthConnectManager;
 import android.health.connect.HealthPermissions;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Build.VERSION_CODES;
 import android.os.Parcelable;
 import android.os.UserHandle;
 import android.os.UserManager;
@@ -118,6 +115,7 @@ import com.android.permissioncontroller.R;
 import com.android.permissioncontroller.permission.model.AppPermissionGroup;
 import com.android.permissioncontroller.permission.model.livedatatypes.LightAppPermGroup;
 import com.android.permissioncontroller.permission.model.livedatatypes.LightPackageInfo;
+import com.android.settingslib.widget.SettingsThemeHelper;
 
 import kotlin.Triple;
 
@@ -1069,6 +1067,14 @@ public final class Utils {
         } finally {
             Binder.restoreCallingIdentity(token);
         }
+    }
+
+    /**
+     * Whether Expressive Design is enabled on this device.
+     */
+    public static boolean isExpressiveDesignEnabled(@NonNull Context context) {
+        return SdkLevel.isAtLeastB() && DeviceUtils.isHandheld()
+                && SettingsThemeHelper.isExpressiveTheme(context);
     }
 
     /**
