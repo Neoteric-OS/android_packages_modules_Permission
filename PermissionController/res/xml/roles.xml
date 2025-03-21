@@ -726,6 +726,8 @@
                 minSdkVersion="35" />
             <permission name="android.permission.MANAGE_DEVICE_POLICY_AUDIT_LOGGING"
                 minSdkVersion="35" />
+            <permission name="android.permission.MANAGE_DEVICE_POLICY_MTE"
+                minSdkVersion="36" />
         </permissions>
         <!-- App ops needed to allow background access to audio APIs for CTS -->
         <app-ops>
