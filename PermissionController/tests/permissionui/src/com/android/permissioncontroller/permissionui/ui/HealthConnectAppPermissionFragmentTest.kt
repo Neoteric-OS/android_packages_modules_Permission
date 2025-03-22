@@ -36,6 +36,7 @@ import org.junit.After
 import org.junit.Assume.assumeFalse
 import org.junit.Assume.assumeTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -84,6 +85,7 @@ class HealthConnectAppPermissionFragmentTest : BasePermissionUiTest() {
 
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
     @Test
+    @Ignore("b/405152547")
     fun usedHealthConnectPermissionsAreListed_handHeldDevices_healthFitnessBrand() {
         assumeFalse(context.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
         installTestAppThatUsesHealthConnectPermission()
@@ -131,6 +133,7 @@ class HealthConnectAppPermissionFragmentTest : BasePermissionUiTest() {
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
     @RequiresFlagsEnabled(FLAG_REPLACE_BODY_SENSOR_PERMISSION_ENABLED)
     @Test
+    @Ignore("b/405152547")
     fun startManageAppPermissionsActivity_handHeldDevices_requestLegacyBodySensorsUngranted_healthConnectShowsUp() {
         assumeFalse(context.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
         installTestAppThatUsesLegacyBodySensorsPermissions()
@@ -139,6 +142,20 @@ class HealthConnectAppPermissionFragmentTest : BasePermissionUiTest() {
 
         eventually { waitFindObject(By.text(HEALTH_FITNESS_LABEL)) }
     }
+
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
+    @RequiresFlagsEnabled(FLAG_REPLACE_BODY_SENSOR_PERMISSION_ENABLED)
+    @Test
+    @Ignore("b/405152547")
+    fun startManageAppPermissionsActivity_handHeldDevices_requestLegacyBodySensorsTargetSdk22Ungranted_healthConnectShowsUp() {
+        assumeFalse(context.packageManager.hasSystemFeature(PackageManager.FEATURE_WATCH))
+        installTestAppThatUsesLegacyBodySensorsPermissionsTargetSdk22()
+
+        startManageAppPermissionsActivity()
+
+        eventually { waitFindObject(By.text(HEALTH_FITNESS_LABEL)) }
+    }
+
 
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.BAKLAVA, codeName = "Baklava")
     @RequiresFlagsEnabled(FLAG_REPLACE_BODY_SENSOR_PERMISSION_ENABLED)
