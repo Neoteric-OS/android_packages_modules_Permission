@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -59,7 +60,6 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
-import androidx.wear.compose.material3.lazy.scrollTransform
 import com.android.permissioncontroller.wear.permission.components.AnnotatedText
 import com.android.permissioncontroller.wear.permission.components.ListScopeWrapper
 import com.android.permissioncontroller.wear.permission.components.material2.Wear2Scaffold
@@ -73,7 +73,7 @@ private class TransformingScopeConverter(private val scope: TransformingLazyColu
     ListScopeWrapper {
     override fun item(key: Any?, contentType: Any?, content: @Composable () -> Unit) {
         // TODO:https://buganizer.corp.google.com/issues/389093588.
-        scope.item { Box(modifier = Modifier.scrollTransform(this)) { content() } }
+        scope.item { content() }
     }
 
     override fun items(
@@ -194,6 +194,11 @@ private fun WearPermissionScaffoldInternal(
 
     val scalingListState = rememberScalingLazyListState()
     val transformingLazyColumnState = rememberTransformingLazyColumnState()
+    LaunchedEffect(title, subtitle) {
+        // When the title/subtitle changes go to the top. Ex: A chain of permission requests.
+        scalingListState.scrollToItem(index = 0)
+        transformingLazyColumnState.scrollToItem(index = 0)
+    }
     val listState = if (asScalingList) scalingListState else transformingLazyColumnState
     val scrollInfoProvider =
         if (asScalingList) ScrollInfoProvider(scalingListState)
