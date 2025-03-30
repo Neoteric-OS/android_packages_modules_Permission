@@ -878,7 +878,6 @@ public class RoleManagerTest {
     }
 
     @Test
-    @RequiresFlagsEnabled(android.os.Flags.FLAG_ALLOW_PRIVATE_PROFILE)
     @EnsureHasPrivateProfile(installInstrumentedApp = OptionalBoolean.TRUE)
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.VANILLA_ICE_CREAM,
             codeName = "VanillaIceCream")
@@ -894,6 +893,9 @@ public class RoleManagerTest {
         assertThat(privateProfile).isNotNull();
         installPackage(APP_APK_PATH, privateProfile);
         installPackage(APP_CLONE_APK_PATH, privateProfile);
+
+        UiAutomatorUtils.getUiDevice().waitForIdle(30 * 1000);
+
         addRoleHolderAsUser(ROLE_NAME, APP_CLONE_PACKAGE_NAME, privateProfile);
 
         sContext.startActivity(new Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
