@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
-  ~ Copyright (C) 2023 The Android Open Source Project
+  ~ Copyright (C) 2025 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,14 +15,11 @@
   ~ limitations under the License.
   -->
 
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.permissionmultidevice.cts.accessremotedevicecamera">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.permissioncontroller.tests.appthatrequestpermission">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+  <uses-permission android:name="android.permission.BODY_SENSORS" />
+  <uses-permission android:name="android.permission.BODY_SENSORS_BACKGROUND" />
 
-    <application>
-        <activity android:name=".RequestPermissionActivity" android:exported="true" />
-    </application>
+  <application />
 </manifest>
