@@ -1206,14 +1206,6 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
         packageName: String,
         manuallyNavigate: Boolean = false,
     ) {
-        navigateToIndividualPermissionSetting(permission, APP_PACKAGE_NAME, manuallyNavigate)
-    }
-
-    protected fun navigateToIndividualPermissionSetting(
-        permission: String,
-        packageName: String,
-        manuallyNavigate: Boolean = false,
-    ) {
         val useLegacyNavigation = isWatch || isAutomotive || manuallyNavigate
         if (useLegacyNavigation) {
             navigateToAppPermissionSettings()
