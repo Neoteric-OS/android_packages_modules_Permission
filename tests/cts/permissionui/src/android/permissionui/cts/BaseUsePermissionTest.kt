@@ -1194,9 +1194,16 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
             }
         }
     }
+    protected fun navigateToIndividualPermissionSetting(
+        permission: String,
+        manuallyNavigate: Boolean = false,
+    ) {
+        navigateToIndividualPermissionSetting(permission, APP_PACKAGE_NAME, manuallyNavigate)
+    }
 
     protected fun navigateToIndividualPermissionSetting(
         permission: String,
+        packageName: String,
         manuallyNavigate: Boolean = false,
     ) {
         navigateToIndividualPermissionSetting(permission, APP_PACKAGE_NAME, manuallyNavigate)
