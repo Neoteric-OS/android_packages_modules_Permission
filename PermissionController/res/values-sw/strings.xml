@@ -411,7 +411,7 @@
     <string name="role_notes_search_keywords" msgid="7710756695666744631">"madokezo"</string>
     <string name="role_wallet_label" msgid="3719419175656204207">"Programu chaguomsingi ya pochi"</string>
     <string name="role_wallet_short_label" msgid="6521288403762457452">"Programu ya pochi"</string>
-    <string name="role_wallet_description" msgid="3726535836165949838">"Unaweza kuhifadhi kadi zako za mikopo na za kutuza uaminifu, funguo za magari na mengine kwenye programu za Pochi ili kukusaidia kufanya miamala mbalimbali."</string>
+    <string name="role_wallet_description" msgid="3726535836165949838">"Unaweza kuhifadhi kadi zako za mikopo na za kutuza uaminifu, funguo za magari na mengine kwenye programu za pochi ili kukusaidia kufanya miamala mbalimbali."</string>
     <string name="role_wallet_request_title" msgid="4770217108262737093">"Ungependa kuweka <xliff:g id="APP_NAME">%1$s</xliff:g> iwe programu yako chaguomsingi ya pochi?"</string>
     <string name="role_wallet_request_description" msgid="6305487425777483053">"Hakuna ruhusa zinazohitajika"</string>
     <string name="request_role_current_default" msgid="738722892438247184">"Chaguomsingi ya sasa"</string>
@@ -499,10 +499,10 @@
     <string name="permgrouprequest_device_aware_sms" msgid="6639977653040502291">"Ungependa kuiruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie na itume ujumbe wa SMS kwenye &lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;?"</string>
     <string name="permgrouprequest_storage" msgid="8717773092518621602">"Ungependa &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie picha, maudhui na faili kwenye kifaa chako?"</string>
     <string name="permgrouprequest_device_aware_storage" msgid="6933251810928606636">"Ungependa kuiruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie picha, maudhui na faili kwenye &lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;?"</string>
-    <string name="permgrouprequest_storage_q_to_s" msgid="8213701872983685505">"Ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie &lt;b&gt;picha, video, muziki na sauti&lt;/b&gt; kwenye kifaa hiki?"</string>
-    <string name="permgrouprequest_storage_pre_q" msgid="168130651144569428">"Ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie &lt;b&gt;picha, video, muziki, sauti na faili zingine&lt;/b&gt; kwenye kifaa hiki?"</string>
-    <string name="permgrouprequest_read_media_aural" msgid="2593365397347577812">"Ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie muziki na sauti kwenye kifaa hiki?"</string>
-    <string name="permgrouprequest_device_aware_read_media_aural" msgid="7927884506238101064">"Ungependa kuiruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie muziki na sauti kwenye &lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;?"</string>
+    <string name="permgrouprequest_storage_q_to_s" msgid="8213701872983685505">"Je, ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie &lt;b&gt;picha, video, muziki na sauti&lt;/b&gt; kwenye kifaa hiki?"</string>
+    <string name="permgrouprequest_storage_pre_q" msgid="168130651144569428">"Je, ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie &lt;b&gt;picha, video, muziki, sauti na faili zingine&lt;/b&gt; kwenye kifaa hiki?"</string>
+    <string name="permgrouprequest_read_media_aural" msgid="2593365397347577812">"Je, ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie muziki na sauti kwenye kifaa hiki?"</string>
+    <string name="permgrouprequest_device_aware_read_media_aural" msgid="7927884506238101064">"Je, ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie muziki na sauti kwenye &lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;?"</string>
     <string name="permgrouprequest_read_media_visual" msgid="5548780620779729975">"Ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie picha na video kwenye kifaa hiki?"</string>
     <string name="permgrouprequest_device_aware_read_media_visual" msgid="3122576538319059333">"Ungependa kuiruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie picha na video kwenye &lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;?"</string>
     <string name="permgrouprequest_more_photos" msgid="128933814654231321">"Ungependa kuruhusu &lt;b&gt;<xliff:g id="APP_NAME">%1$s</xliff:g>&lt;/b&gt; ifikie picha na video zaidi kwenye kifaa hiki?"</string>
