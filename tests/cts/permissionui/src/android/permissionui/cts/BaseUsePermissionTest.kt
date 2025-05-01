@@ -1194,7 +1194,6 @@ abstract class BaseUsePermissionTest : BasePermissionTest() {
             }
         }
     }
-
     protected fun navigateToIndividualPermissionSetting(
         permission: String,
         manuallyNavigate: Boolean = false,
